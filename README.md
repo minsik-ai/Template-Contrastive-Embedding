@@ -1,6 +1,7 @@
 # TaDSE: Template-aware Dialogue Sentence Embeddings
 
-Paper: [Template-assisted Contrastive Learning of Task-oriented Dialogue Sentence Embeddings](https://arxiv.org/abs/2305.14299) — accepted to **ACL 2026**.
+Paper: [Template-assisted Contrastive Learning of Task-oriented Dialogue Sentence Embeddings](https://arxiv.org/abs/2305.14299)
+Accepted to **ACL 2026**.
 
 TaDSE learns sentence embeddings for spoken/dialogue language understanding by
 jointly contrasting utterances and their underlying **patterns** (slot-templated
