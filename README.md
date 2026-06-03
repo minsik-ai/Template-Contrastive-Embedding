@@ -2,7 +2,7 @@
 
 Paper: [Template-assisted Contrastive Learning of Task-oriented Dialogue Sentence Embeddings](https://arxiv.org/abs/2305.14299)
 
-Accepted to **ACL 2026**.
+Accepted to **ACL 2026 (Oral)**.
 
 TaDSE learns sentence embeddings for spoken/dialogue language understanding by
 jointly contrasting utterances and their underlying **patterns** (slot-templated
@@ -105,13 +105,13 @@ HWU64 (raw CSVs) and CLINC pattern extraction logs.
 ## Citation
 
 ```bibtex
-@misc{oh2025templateassistedcontrastivelearningtaskoriented,
-      title={Template-assisted Contrastive Learning of Task-oriented Dialogue Sentence Embeddings},
+@misc{oh2026templateassistedcontrastivelearningtaskoriented,
+      title={Template-assisted Contrastive Learning of Task-oriented Dialogue Sentence Embeddings}, 
       author={Minsik Oh and Jiwei Li and Guoyin Wang},
-      year={2025},
+      year={2026},
       eprint={2305.14299},
       archivePrefix={arXiv},
       primaryClass={cs.CL},
-      url={https://arxiv.org/abs/2305.14299},
+      url={https://arxiv.org/abs/2305.14299}, 
 }
 ```
