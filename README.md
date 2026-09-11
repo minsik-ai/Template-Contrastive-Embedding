@@ -105,7 +105,7 @@ HWU64 (raw CSVs) and CLINC pattern extraction logs.
 ## Citation
 
 ```bibtex
-@misc{oh2026templateassistedcontrastivelearningtaskoriented,
+@misc{tadse,
       title={Template-assisted Contrastive Learning of Task-oriented Dialogue Sentence Embeddings}, 
       author={Minsik Oh and Jiwei Li and Guoyin Wang},
       year={2026},
