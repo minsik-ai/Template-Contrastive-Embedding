@@ -61,9 +61,31 @@ Backbones: BERT, RoBERTa, and Qwen3 (`BertForPatternCL`, `RobertaForPatternCL`,
 
 ## Setup
 
+Use Python 3.11 for the reconstructed dependency baseline:
+
 ```bash
 pip install -r requirements.txt
 ```
+
+## Reconstructing the experiments
+
+The original augmentation script and environment lock were not included in the
+release. The new [reproduction guide](docs/reproduction.md) documents the recovered
+paper recipe, PW cluster setup, commands, and remaining gaps.
+
+- `data/massive/augment_data.py` rebuilds training-only slot substitutions from
+  the bundled sources, with split-overlap filtering, CSV output and provenance.
+- `scripts/reproduce_train.py` trains BERT with the existing TaDSE objective and
+  the maintained Transformers Trainer, then verifies checkpoint reload.
+- `scripts/evaluate_reproduction.py` runs MASSIVE cosine 1NN with
+  validation-selected semantic compression and an initialization baseline.
+- `scripts/reproduce_pw.sbatch` runs a bounded pilot or two-epoch experiment on PW.
+
+These are reconstructed experiments, not a verified reproduction of the paper's
+reported results. In particular, the bundled SNIPS inputs do not recover the
+paper's augmented dataset size. See the guide before launching pooled training.
+The historical training commands below remain for reference; use the new runner
+for the tested BERT path.
 
 ## Pre-training TaDSE
 

@@ -7,3 +7,12 @@ outmodel/
 senteval/
 model/supervised/data/
 .env
+!requirements.txt
+.venv/
+artifacts/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.omx/
+.DS_Store

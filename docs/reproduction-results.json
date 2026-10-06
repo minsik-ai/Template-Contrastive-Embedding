@@ -1,0 +1,484 @@
+{
+  "recorded_date": "2026-10-06",
+  "timezone": "America/Los_Angeles",
+  "scope": "Partial experiment reconstruction; published five-dataset results not reproduced",
+  "cluster_checkout": "/home/minsik/Template-Contrastive-Embedding",
+  "branch": "codex/reproduce-tadse",
+  "base_commit": "731051d",
+  "environment_and_checks": {
+    "python": "Python 3.11.16",
+    "torch": "2.7.1+cu126",
+    "transformers": "4.51.3",
+    "backbone_commit": "218baf6bc48c463a53f5b4e1c568299537fab124",
+    "training_sha256": "eba9b62a95def34cf4c9e68867022c48b24e4d905ebf1feb5eedaa47408569ff",
+    "freeze_sha256": "471c221c903645e6f7969d1daee008b62631046346f2ce79a4b53264b16af99f",
+    "tests_summary": [
+      "Ran 28 tests in 39.994s\n\nOK"
+    ],
+    "gpu_lines": [
+      "NVIDIA H200, 570.124.06, 143771 MiB"
+    ],
+    "full_run_scheduler": "53238 PENDING (None)"
+  },
+  "source_sha256": {
+    "requirements.txt": "e5f77064aceb8d25686bb8677059128b20d17f5b85d5bb45426d789ff4bc8975",
+    "data/massive/augment_data.py": "d972ea48a394f6ee87197d85768bf3bb211c92aad0b7e1ef803d1bc4b135ce6b",
+    "scripts/reproduce_train.py": "0f5e3ea11047c79e73c0299ab81ac203e3ddb7586c4ee985949dc7d1fd945e4f",
+    "scripts/evaluate_reproduction.py": "3ef6b3de77bc02942419fb889ace5ab5a5c0fb7bcd998389ee6d9ced5f8ad7fb",
+    "model/tadse/models.py": "411fe6f9c1fca74f8db9519f6c9c0292cb8fab58c2f3e5ffc98f83486e549880"
+  },
+  "augmentation": {
+    "directory": "artifacts/augmentation-clean",
+    "filter": "Union of casefolded, whitespace-normalized held-out comparison keys from every available selected source, before vocabulary construction and after augmentation; differs from historical paper recipe.",
+    "heldout_normalized_keys": 16804,
+    "combined": {
+      "output": "combined_train.csv",
+      "output_rows": 5300046,
+      "sha256": "c9d0aae011f55a142c4167bb3b9f1aaf34b8cda863cb1d5661a0a6332f956d52",
+      "source_order": [
+        "snips",
+        "atis",
+        "massive",
+        "hwu",
+        "clinc"
+      ]
+    },
+    "sources": {
+      "snips": {
+        "status": "prepared",
+        "source": "snips",
+        "top_k": 5,
+        "train_examples": 13771,
+        "output_rows": 4657559,
+        "heldout_normalized_keys": 16804,
+        "generated_heldout_matches_removed": 168,
+        "max_combinations_per_example": null,
+        "examples_truncated_by_cap": 0,
+        "output": "snips_train.csv",
+        "sha256": "13a9e1cb3815d3593be96720eefe595a4fffc88b809565ad0db52972c5fa7000",
+        "inputs": [
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/snips/AddToPlaylist/train_AddToPlaylist_full.json",
+            "sha256": "fee1b4645352e70ed8a40f1f87c3b53fc3bf75f8ebc82252a22b82c107e75b01"
+          },
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/snips/BookRestaurant/train_BookRestaurant_full.json",
+            "sha256": "7677e82cd6e9a8191f0a4502568c786278c984900b4796d3628e46f1abf73ef4"
+          },
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/snips/GetWeather/train_GetWeather_full.json",
+            "sha256": "86f414b2ad8a993134d85d16e25e5d337beae47cef993c0af2a5f440405c60f6"
+          },
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/snips/PlayMusic/train_PlayMusic_full.json",
+            "sha256": "901ddbe9781d1fdb8196e789c543f80df3d29ca6e237da64947905adcc0312e4"
+          },
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/snips/RateBook/train_RateBook_full.json",
+            "sha256": "bb43e4b74134300d5766f6b420d0357a63402987a225f6dc92c806c9c040ce04"
+          },
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/snips/SearchCreativeWork/train_SearchCreativeWork_full.json",
+            "sha256": "87b3432de48c71c205aa5238b41d9e3f2d70bdfcd0bea2427544fb9e4bd5e5bb"
+          },
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/snips/SearchScreeningEvent/train_SearchScreeningEvent_full.json",
+            "sha256": "5447e9440c02e2fb08c3ae16b9f58a4d1332b4bc77fd34691402b02aa4399765"
+          },
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/snips/AddToPlaylist/validate_AddToPlaylist.json",
+            "sha256": "14cc9ee49ae477b1452632a6e835498cf4c32da397b16967c82abb3e50403e83"
+          },
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/snips/BookRestaurant/validate_BookRestaurant.json",
+            "sha256": "4f7258ccc768b777b2eb8916532db9aa50dbd058ddf1ffb0dc59218963e7442a"
+          },
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/snips/GetWeather/validate_GetWeather.json",
+            "sha256": "60c095e193655d6ca92be220fed3926ca25e18cd70c85664145efe25d80993af"
+          },
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/snips/PlayMusic/validate_PlayMusic.json",
+            "sha256": "922212775e26259d5bffeaf79b6048d070ca017d229df00b2cc9800f71c75d20"
+          },
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/snips/RateBook/validate_RateBook.json",
+            "sha256": "c1f8b4114da0bb5e8afd78a8062766e18b2eabb0e717539598db01b09d04619b"
+          },
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/snips/SearchCreativeWork/validate_SearchCreativeWork.json",
+            "sha256": "8a5e830eddb185d3e4a9d27ded140a145d04766bdce0e58834676ede32d13e77"
+          },
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/snips/SearchScreeningEvent/validate_SearchScreeningEvent.json",
+            "sha256": "81e1445713e03c7c3e615353c5f3fee05f369fe9834100b9b9735900a96b9498"
+          }
+        ],
+        "notes": [
+          "train_AddToPlaylist_full.json: decoded utf-8",
+          "train_BookRestaurant_full.json: decoded utf-8",
+          "train_GetWeather_full.json: decoded utf-8",
+          "train_PlayMusic_full.json: decoded latin-1",
+          "train_RateBook_full.json: decoded utf-8",
+          "train_SearchCreativeWork_full.json: decoded utf-8",
+          "train_SearchScreeningEvent_full.json: decoded utf-8",
+          "Only bundled validation is available; separate paper test split is missing.",
+          "Bundled full train has 13,784 rows versus paper 13.1k; Cartesian k=5 yields about 4.66M rows versus paper 163k. Exact historical filtering/augmentation implementation is missing; do not interpret this as count-faithful SNIPS replication.",
+          "Removed 11 training rows overlapping casefolded, whitespace-normalized available held-out text before counting slot values.",
+          "Removed 2 further original rows overlapping other selected sources' held-out text before vocabulary construction."
+        ]
+      },
+      "atis": {
+        "status": "prepared",
+        "source": "atis",
+        "top_k": 2,
+        "train_examples": 4960,
+        "output_rows": 237710,
+        "heldout_normalized_keys": 16804,
+        "generated_heldout_matches_removed": 12,
+        "max_combinations_per_example": null,
+        "examples_truncated_by_cap": 0,
+        "output": "atis_train.csv",
+        "sha256": "9d65583129f41121211194560790bc1e15301e9f532b0f568402e6adeb1f6a74",
+        "inputs": [
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/atis_train.json",
+            "sha256": "19a4a8215e05246d2a80372dd1f4db8fae7614d983a9d5bcb1aa8a808936ae7b"
+          },
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/atis_test.json",
+            "sha256": "d73430143d57bdf8c92ab10bdb15444db1e3f14c96cef53a0969b5462b04d31b"
+          }
+        ],
+        "notes": [
+          "Repaired ATIS row 708 whole-utterance offsets: 1:8 -> 0:7; value equals full text.",
+          "No separate ATIS validation split is bundled.",
+          "Removed 18 training rows overlapping casefolded, whitespace-normalized available held-out text before counting slot values.",
+          "Removed 0 further original rows overlapping other selected sources' held-out text before vocabulary construction."
+        ]
+      },
+      "massive": {
+        "status": "prepared",
+        "source": "massive",
+        "top_k": 3,
+        "train_examples": 10512,
+        "output_rows": 73317,
+        "heldout_normalized_keys": 16804,
+        "generated_heldout_matches_removed": 256,
+        "max_combinations_per_example": null,
+        "examples_truncated_by_cap": 0,
+        "output": "massive_train.csv",
+        "sha256": "eba9b62a95def34cf4c9e68867022c48b24e4d905ebf1feb5eedaa47408569ff",
+        "inputs": [
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/massive_en-US.jsonl",
+            "sha256": "c70f75c6a543a26e249ec383df67733ad9b1066f6c0406c2e04a3f03356e407e"
+          }
+        ],
+        "notes": [
+          "Removed 33 training rows overlapping casefolded, whitespace-normalized available held-out text before counting slot values.",
+          "Removed 969 further original rows overlapping other selected sources' held-out text before vocabulary construction."
+        ]
+      },
+      "hwu": {
+        "status": "prepared",
+        "source": "hwu",
+        "top_k": 3,
+        "train_examples": 15403,
+        "output_rows": 111472,
+        "heldout_normalized_keys": 16804,
+        "generated_heldout_matches_removed": 574,
+        "max_combinations_per_example": null,
+        "examples_truncated_by_cap": 0,
+        "output": "hwu_train.csv",
+        "sha256": "0839a14bad6c17e5d4512fa248c97cc3a01d01e1e4aa1d32e1b9b29012ba7222",
+        "inputs": [
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/hwu64_orig.csv",
+            "sha256": "5f6dbf6d38fc111217924945ac59c554e0b926d5aa836ecdd0d089d2ca48e1d9"
+          },
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/hwu64_valid_raw",
+            "sha256": "fa939bc5394f708691c3d4d5c03bb59fc8301af4cc72a73e9e32fcedafd4e3c2"
+          },
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/hwu64_test_raw",
+            "sha256": "c0129df86114872dd58ac48448fd5559ed6679895b1938f469cf360f7c85ba79"
+          }
+        ],
+        "notes": [
+          "Training reconstructed as nonempty answer_normalised minus bundled valid/test exact strings; official train membership not supplied.",
+          "Removed 0 training rows overlapping casefolded, whitespace-normalized available held-out text before counting slot values.",
+          "Removed 3826 further original rows overlapping other selected sources' held-out text before vocabulary construction."
+        ]
+      },
+      "clinc": {
+        "status": "prepared",
+        "source": "clinc",
+        "top_k": 5,
+        "train_examples": 15196,
+        "output_rows": 219988,
+        "heldout_normalized_keys": 16804,
+        "generated_heldout_matches_removed": 62,
+        "max_combinations_per_example": null,
+        "examples_truncated_by_cap": 0,
+        "output": "clinc_train.csv",
+        "sha256": "56e2228516d9b67a2a538078c567ea60ea6a66367654702af5ae8e9653cce3bf",
+        "inputs": [
+          {
+            "path": "/home/minsik/Template-Contrastive-Embedding/data/massive/clinc_raw_ner_spacy_lg_topk30.log",
+            "sha256": "e70dc89d7340d7a7885f63d02fa64d657d01198b6da666462f1cbafe4b581d00"
+          },
+          {
+            "path": "artifacts/sources/data_oos_plus.json",
+            "sha256": "bfcca9ae515623541dc1983c94c4ed7cae9d26b42ae47d74b972e51bb6f7a21f"
+          }
+        ],
+        "notes": [
+          "Recovered existing spaCy annotations, verified against upstream train+oos_train multiset; original spaCy version unknown.",
+          "Removed 5 training rows overlapping casefolded, whitespace-normalized available held-out text before counting slot values.",
+          "Removed 49 further original rows overlapping other selected sources' held-out text before vocabulary construction."
+        ]
+      }
+    }
+  },
+  "completed_results": {
+    "massive-pilot": {
+      "args": {
+        "checkpoint": "artifacts/runs/massive-pilot",
+        "baseline": false,
+        "massive_source": "data/massive/massive_en-US.jsonl",
+        "train_csv": null,
+        "valid_csv": null,
+        "test_csv": null,
+        "training_csv": null,
+        "output": "artifacts/results/massive-pilot.json",
+        "max_refs": null,
+        "max_queries": null,
+        "batch_size": 64,
+        "max_length": 32,
+        "seed": 42,
+        "device": "cuda",
+        "coefficients": [
+          0.0,
+          0.1,
+          0.2,
+          0.5
+        ]
+      },
+      "source_sha256": {
+        "data/massive/massive_en-US.jsonl": "c70f75c6a543a26e249ec383df67733ad9b1066f6c0406c2e04a3f03356e407e"
+      },
+      "checkpoint_model_args": {
+        "pooler_type": "cls",
+        "mlp_only_train": false,
+        "apply_ptn_transform": false,
+        "simcse_utt_temp": 0.05,
+        "simcse_ptn_temp": 0.05,
+        "pairwise_temp": 0.05,
+        "simcse_utt_loss_ratio": 1.0,
+        "simcse_ptn_loss_ratio": 1.0,
+        "pairwise_loss_ratio": 0.5,
+        "pairwise_neg_type": "utterance",
+        "mlm_loss_ratio": 0,
+        "hidden_size": 768
+      },
+      "original_counts": {
+        "train": 11514,
+        "valid": 2033,
+        "test": 2974
+      },
+      "training_contamination_audit": {
+        "path": "/home/minsik/Template-Contrastive-Embedding/artifacts/augmentation-clean/massive_train.csv",
+        "sha256": "eba9b62a95def34cf4c9e68867022c48b24e4d905ebf1feb5eedaa47408569ff",
+        "rows": 73317,
+        "exclusions": {
+          "valid": 0,
+          "test": 0
+        }
+      },
+      "initialization": {
+        "loading_info": {
+          "missing_keys": [
+            "lm_head.bias",
+            "lm_head.decoder.bias",
+            "lm_head.decoder.weight",
+            "lm_head.transform.LayerNorm.bias",
+            "lm_head.transform.LayerNorm.weight",
+            "lm_head.transform.dense.bias",
+            "lm_head.transform.dense.weight",
+            "mlp.dense.bias",
+            "mlp.dense.weight",
+            "ptn_transform.dense.bias",
+            "ptn_transform.dense.weight"
+          ],
+          "unexpected_keys": [],
+          "mismatched_keys": [],
+          "error_msgs": []
+        },
+        "inference_mlp_mapping": "bert.pooler.dense -> mlp.dense (official SimCSE export naming)"
+      },
+      "evaluated_model": "trained TaDSE checkpoint",
+      "overlap_exclusions": {
+        "valid": 11,
+        "test": 26
+      },
+      "sampled_counts": {
+        "train": 11514,
+        "valid": 2022,
+        "test": 2948
+      },
+      "validation_accuracy": {
+        "0.0": 0.7809099901088031,
+        "0.1": 0.7883283877349159,
+        "0.2": 0.7893175074183977,
+        "0.5": 0.7972304648862513
+      },
+      "selected_coefficient": 0.5,
+      "test_accuracy": 0.7927408412483039,
+      "plain_test_accuracy": 0.7672998643147897,
+      "compression_source": "https://arxiv.org/html/2305.14299v3#S3.SS3",
+      "limitations": [
+        "Reconstructed evaluation, not historical benchmark parity.",
+        "Casefolded whitespace-normalized text overlaps excluded before sampling.",
+        "Baseline uses TaDSE inference pooling settings; it is not automatically standard SimCSE CLS-only.",
+        "Subsampled runs are pilots; reference sampling may omit intent classes."
+      ]
+    },
+    "massive-baseline": {
+      "args": {
+        "checkpoint": "artifacts/runs/massive-pilot",
+        "baseline": true,
+        "massive_source": "data/massive/massive_en-US.jsonl",
+        "train_csv": null,
+        "valid_csv": null,
+        "test_csv": null,
+        "training_csv": null,
+        "output": "artifacts/results/massive-baseline.json",
+        "max_refs": null,
+        "max_queries": null,
+        "batch_size": 64,
+        "max_length": 32,
+        "seed": 42,
+        "device": "cuda",
+        "coefficients": [
+          0.0,
+          0.1,
+          0.2,
+          0.5
+        ]
+      },
+      "source_sha256": {
+        "data/massive/massive_en-US.jsonl": "c70f75c6a543a26e249ec383df67733ad9b1066f6c0406c2e04a3f03356e407e"
+      },
+      "checkpoint_model_args": {
+        "pooler_type": "cls",
+        "mlp_only_train": false,
+        "apply_ptn_transform": false,
+        "simcse_utt_temp": 0.05,
+        "simcse_ptn_temp": 0.05,
+        "pairwise_temp": 0.05,
+        "simcse_utt_loss_ratio": 1.0,
+        "simcse_ptn_loss_ratio": 1.0,
+        "pairwise_loss_ratio": 0.5,
+        "pairwise_neg_type": "utterance",
+        "mlm_loss_ratio": 0,
+        "hidden_size": 768
+      },
+      "original_counts": {
+        "train": 11514,
+        "valid": 2033,
+        "test": 2974
+      },
+      "training_contamination_audit": {
+        "path": "/home/minsik/Template-Contrastive-Embedding/artifacts/augmentation-clean/massive_train.csv",
+        "sha256": "eba9b62a95def34cf4c9e68867022c48b24e4d905ebf1feb5eedaa47408569ff",
+        "rows": 73317,
+        "exclusions": {
+          "valid": 0,
+          "test": 0
+        }
+      },
+      "initialization": {
+        "loading_info": {
+          "missing_keys": [
+            "lm_head.bias",
+            "lm_head.decoder.bias",
+            "lm_head.decoder.weight",
+            "lm_head.transform.LayerNorm.bias",
+            "lm_head.transform.LayerNorm.weight",
+            "lm_head.transform.dense.bias",
+            "lm_head.transform.dense.weight",
+            "mlp.dense.bias",
+            "mlp.dense.weight",
+            "ptn_transform.dense.bias",
+            "ptn_transform.dense.weight"
+          ],
+          "unexpected_keys": [],
+          "mismatched_keys": [],
+          "error_msgs": []
+        },
+        "inference_mlp_mapping": "bert.pooler.dense -> mlp.dense (official SimCSE export naming)"
+      },
+      "evaluated_model": "initialized TaDSE with identical inference settings",
+      "overlap_exclusions": {
+        "valid": 11,
+        "test": 26
+      },
+      "sampled_counts": {
+        "train": 11514,
+        "valid": 2022,
+        "test": 2948
+      },
+      "validation_accuracy": {
+        "0.0": 0.7794263105835806,
+        "0.1": 0.787833827893175,
+        "0.2": 0.7883283877349159,
+        "0.5": 0.7977250247279921
+      },
+      "selected_coefficient": 0.5,
+      "test_accuracy": 0.7934192672998643,
+      "plain_test_accuracy": 0.7666214382632293,
+      "compression_source": "https://arxiv.org/html/2305.14299v3#S3.SS3",
+      "limitations": [
+        "Reconstructed evaluation, not historical benchmark parity.",
+        "Casefolded whitespace-normalized text overlaps excluded before sampling.",
+        "Baseline uses TaDSE inference pooling settings; it is not automatically standard SimCSE CLS-only.",
+        "Subsampled runs are pilots; reference sampling may omit intent classes."
+      ]
+    },
+    "massive-pilot-training": {
+      "train_runtime": 4.5065,
+      "train_samples_per_second": 355.04,
+      "train_steps_per_second": 22.19,
+      "total_flos": 120763311049728.0,
+      "train_loss": 1.168542103767395,
+      "epoch": 0.02182453077258839,
+      "reload_max_abs_diff": 0.0,
+      "embeddings_changed": true,
+      "tiny_random_bert": false
+    }
+  },
+  "scheduler_jobs": {
+    "53234": "failed: original shared-bias serialization defect, now fixed",
+    "53235": "failed before fixed loader was transferred",
+    "53236": "completed: tests and 100-step pretrained GPU pilot",
+    "53237": "completed: full-size cleaned MASSIVE evaluation, baseline and pilot",
+    "53238": "queued: two-epoch MASSIVE-only training followed by evaluation"
+  },
+  "verification": {
+    "cluster_tests": "28 passed, including 4 ML integrations",
+    "local_tests": "24 passed, 4 ML integrations skipped locally",
+    "lint": "ruff check scripts tests data/massive/augment_data.py passed",
+    "syntax": "compileall and bash -n passed",
+    "package_check": "64 packages compatible"
+  },
+  "limitations": [
+    "SNIPS top-5 reconstruction produces 4,657,559 rows vs paper approximately 163k; unresolved",
+    "Pooled heldout filtering changes source counts from historical recipe",
+    "Only BERT validated; RoBERTa/Qwen3 code paths need repair",
+    "Original environment, checkpoints, seeds, inference settings and complete split protocol unrecovered",
+    "Two-epoch job has no result at this recorded checkpoint; no exact paper reproduction claimed"
+  ],
+  "publication": "No Git push or Hub upload performed; user requested review before push"
+}
