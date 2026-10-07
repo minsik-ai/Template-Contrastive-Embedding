@@ -87,6 +87,10 @@ paper's augmented dataset size. See the guide before launching pooled training.
 The historical training commands below remain for reference; use the new runner
 for the tested BERT path.
 
+For gated dataset packaging and private Hub upload, see the
+[private dataset release workflow](docs/private-dataset-release.md). The current
+candidate fails the paper-count checks and has **not been uploaded**.
+
 ## Pre-training TaDSE
 
 ```bash

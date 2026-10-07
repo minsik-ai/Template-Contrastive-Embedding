@@ -1,0 +1,195 @@
+{
+  "date": "2026-10-07",
+  "timezone": "America/Los_Angeles",
+  "status": "blocked_by_paper_count_verification",
+  "upload_performed": false,
+  "destination_exists": false,
+  "intended_private_repo": "minsik-oh/tadse-dialogue-augmentation-20261007",
+  "jobs": {
+    "53803": "generation completed",
+    "53815": "pooled audit blocked, exit2",
+    "53818": "source-isolated generation completed; audit blocked, exit2"
+  },
+  "checks": {
+    "passed": 83,
+    "total": 98,
+    "failed": 15
+  },
+  "observed": {
+    "snips": {
+      "utterances": 4657571,
+      "originals": 13773,
+      "slots": 39,
+      "values": 11928,
+      "templates": 7431
+    },
+    "atis": {
+      "utterances": 237710,
+      "originals": 4960,
+      "slots": 79,
+      "values": 704,
+      "templates": 3333
+    },
+    "massive": {
+      "utterances": 77900,
+      "originals": 11481,
+      "slots": 55,
+      "values": 3956,
+      "templates": 10230
+    },
+    "hwu": {
+      "utterances": 133026,
+      "originals": 19229,
+      "slots": 56,
+      "values": 6007,
+      "templates": 16614
+    },
+    "clinc": {
+      "utterances": 220122,
+      "originals": 15245,
+      "slots": 17,
+      "values": 1745,
+      "templates": 14808
+    }
+  },
+  "failures": [
+    {
+      "name": "snips.paper.originals",
+      "passed": false,
+      "actual": 13773,
+      "paper_display": "13.1K",
+      "lower_inclusive": 13050,
+      "upper_exclusive": 13150
+    },
+    {
+      "name": "snips.paper.utterances",
+      "passed": false,
+      "actual": 4657571,
+      "paper_display": "163K",
+      "lower_inclusive": 162500,
+      "upper_exclusive": 163500
+    },
+    {
+      "name": "atis.paper.slots",
+      "passed": false,
+      "actual": 79,
+      "paper_display": "41",
+      "lower_inclusive": 41,
+      "upper_exclusive": 42
+    },
+    {
+      "name": "atis.paper.values",
+      "passed": false,
+      "actual": 704,
+      "paper_display": "0.6K",
+      "lower_inclusive": 550,
+      "upper_exclusive": 650
+    },
+    {
+      "name": "atis.paper.originals",
+      "passed": false,
+      "actual": 4960,
+      "paper_display": "4.5K",
+      "lower_inclusive": 4450,
+      "upper_exclusive": 4550
+    },
+    {
+      "name": "atis.paper.utterances",
+      "passed": false,
+      "actual": 237710,
+      "paper_display": "239K",
+      "lower_inclusive": 238500,
+      "upper_exclusive": 239500
+    },
+    {
+      "name": "massive.paper.templates",
+      "passed": false,
+      "actual": 10230,
+      "paper_display": "10.3K",
+      "lower_inclusive": 10250,
+      "upper_exclusive": 10350
+    },
+    {
+      "name": "clinc.paper.templates",
+      "passed": false,
+      "actual": 14808,
+      "paper_display": "15.3K",
+      "lower_inclusive": 15250,
+      "upper_exclusive": 15350
+    },
+    {
+      "name": "clinc.paper.originals",
+      "passed": false,
+      "actual": 15245,
+      "paper_display": "15.3K",
+      "lower_inclusive": 15250,
+      "upper_exclusive": 15350
+    },
+    {
+      "name": "combined.paper.utterances",
+      "passed": false,
+      "actual": 5326329,
+      "paper_display": "834K",
+      "lower_inclusive": 833500,
+      "upper_exclusive": 834500
+    },
+    {
+      "name": "total.paper.slots",
+      "passed": false,
+      "actual": 246,
+      "paper_display": "208",
+      "lower_inclusive": 208,
+      "upper_exclusive": 209
+    },
+    {
+      "name": "total.paper.values",
+      "passed": false,
+      "actual": 24340,
+      "paper_display": "24.2K",
+      "lower_inclusive": 24150,
+      "upper_exclusive": 24250
+    },
+    {
+      "name": "total.paper.templates",
+      "passed": false,
+      "actual": 52416,
+      "paper_display": "52.9K",
+      "lower_inclusive": 52850,
+      "upper_exclusive": 52950
+    },
+    {
+      "name": "total.paper.originals",
+      "passed": false,
+      "actual": 64688,
+      "paper_display": "63.6K",
+      "lower_inclusive": 63550,
+      "upper_exclusive": 63650
+    },
+    {
+      "name": "total.paper.utterances",
+      "passed": false,
+      "actual": 5326329,
+      "paper_display": "834K",
+      "lower_inclusive": 833500,
+      "upper_exclusive": 834500
+    }
+  ],
+  "rounding_policy": "Nearest displayed unit, half-up; [lower, upper). Exact paper counts and rounding convention are unavailable.",
+  "statistic_definitions": {
+    "originals": "Number of original evidence rows, retaining original multiplicity.",
+    "slots": "Distinct typed slot names in original evidence.",
+    "values": "Distinct exact slot value strings across all slot types before top-k selection.",
+    "templates": "Distinct exact generic masked template strings in original evidence.",
+    "utterances": "CSV data rows, retaining the generation policy's multiplicity.",
+    "totals": "Sum of per-source counts, not a cross-source deduplication."
+  },
+  "manifest": {
+    "path": "/home/minsik/Template-Contrastive-Embedding/artifacts/release-20261007/source-isolated/release-manifest.json",
+    "sha256": "9052a0cfe55fd2cf9cce6c7527d450f1db0a1c79ce64715393d16bd85e1d39d1"
+  },
+  "generator_sha256": "d972ea48a394f6ee87197d85768bf3bb211c92aad0b7e1ef803d1bc4b135ce6b",
+  "audit_path": "/home/minsik/Template-Contrastive-Embedding/artifacts/release-20261007/source-isolated-review/verification.json",
+  "tests": "51 distinct tests passed on PW; Ruff, Python compilation and shell syntax checks passed",
+  "core_augmentation_changed": false,
+  "github_push_performed": false
+}
