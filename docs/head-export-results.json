@@ -1,0 +1,131 @@
+{
+  "date": "2026-10-08",
+  "job_id": 54670,
+  "job_state": "COMPLETED",
+  "elapsed": "00:01:54",
+  "hypothesis": "A fixed trained-MLP-to-BERT-pooler export on frozen checkpoints",
+  "encoder_changed": false,
+  "source_checkpoints_changed": false,
+  "training_performed": false,
+  "per_dataset_head_selection": false,
+  "results": {
+    "tadse": {
+      "before": 83.01657775907456,
+      "after": 83.24428864916902,
+      "delta": 0.22771089009445689,
+      "validation": {
+        "massive": {
+          "before": 77.8160354156419,
+          "after": 77.86522380718151,
+          "delta": 0.04918839153960164
+        },
+        "clinc": {
+          "before": 81.09677419354838,
+          "after": 81.41935483870968,
+          "delta": 0.32258064516129537
+        }
+      },
+      "test": {
+        "snips": {
+          "accuracy": 97.57142857142857,
+          "original_accuracy": 96.85714285714286,
+          "delta_to_original": 0.7142857142857082,
+          "paper_accuracy": 97.0,
+          "delta_to_paper": 0.5714285714285694
+        },
+        "atis": {
+          "accuracy": 89.58566629339306,
+          "original_accuracy": 89.13773796192609,
+          "delta_to_original": 0.44792833146696864,
+          "paper_accuracy": 89.7,
+          "delta_to_paper": -0.11433370660694209
+        },
+        "massive": {
+          "accuracy": 77.63954270342973,
+          "original_accuracy": 77.57229320780094,
+          "delta_to_original": 0.06724949562878635,
+          "paper_accuracy": 78.18,
+          "delta_to_paper": -0.5404572965702812
+        },
+        "hwu": {
+          "accuracy": 81.97026022304833,
+          "original_accuracy": 81.97026022304833,
+          "delta_to_original": 0.0,
+          "paper_accuracy": 82.77,
+          "delta_to_paper": -0.7997397769516681
+        },
+        "clinc": {
+          "accuracy": 69.45454545454545,
+          "original_accuracy": 69.54545454545455,
+          "delta_to_original": -0.09090909090909349,
+          "paper_accuracy": 70.56,
+          "delta_to_paper": -1.105454545454549
+        }
+      },
+      "source_unchanged": true,
+      "encoder_byte_identical": true,
+      "reload_max_abs_diff": 0.0,
+      "export_model_path": "/home/minsik/Template-Contrastive-Embedding/artifacts/head-export-20261008/tadse/model"
+    },
+    "tadse_mlp": {
+      "before": 82.82120011984611,
+      "after": 82.84321656537416,
+      "delta": 0.022016445528052486,
+      "validation": {
+        "massive": {
+          "before": 78.16035415641909,
+          "after": 78.40629611411707,
+          "delta": 0.24594195769797977
+        },
+        "clinc": {
+          "before": 82.80645161290323,
+          "after": 83.35483870967742,
+          "delta": 0.5483870967741922
+        }
+      },
+      "test": {
+        "snips": {
+          "accuracy": 95.57142857142857,
+          "original_accuracy": 94.85714285714286,
+          "delta_to_original": 0.7142857142857082,
+          "paper_accuracy": 96.29,
+          "delta_to_paper": -0.7185714285714369
+        },
+        "atis": {
+          "accuracy": 87.68197088465845,
+          "original_accuracy": 87.45800671892498,
+          "delta_to_original": 0.22396416573347722,
+          "paper_accuracy": 89.14,
+          "delta_to_paper": -1.458029115341546
+        },
+        "massive": {
+          "accuracy": 78.61466039004708,
+          "original_accuracy": 78.24478816408877,
+          "delta_to_original": 0.3698722259583036,
+          "paper_accuracy": 79.15,
+          "delta_to_paper": -0.5353396099529277
+        },
+        "hwu": {
+          "accuracy": 81.78438661710037,
+          "original_accuracy": 82.5278810408922,
+          "delta_to_original": -0.7434944237918302,
+          "paper_accuracy": 82.29,
+          "delta_to_paper": -0.5056133828996394
+        },
+        "clinc": {
+          "accuracy": 70.56363636363636,
+          "original_accuracy": 71.01818181818182,
+          "delta_to_original": -0.45454545454545325,
+          "paper_accuracy": 72.49,
+          "delta_to_paper": -1.9263636363636323
+        }
+      },
+      "source_unchanged": true,
+      "encoder_byte_identical": true,
+      "reload_max_abs_diff": 0.0,
+      "export_model_path": "/home/minsik/Template-Contrastive-Embedding/artifacts/head-export-20261008/tadse_mlp/model"
+    }
+  },
+  "tests": "7 distinct tests passed on PW, including real Torch export/reload and source-protection guards",
+  "publication": "No GitHub push or Hugging Face upload"
+}
