@@ -7,7 +7,7 @@
 #SBATCH --mem=32G
 #SBATCH --time=02:00:00
 #SBATCH --partition=voltagepark
-#SBATCH --qos=normal
+#SBATCH --qos=yejinchoi
 #SBATCH --account=yejinchoi
 set -euo pipefail
 

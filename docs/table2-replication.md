@@ -110,6 +110,15 @@ five-dataset evaluation. `scripts/table2_pw.sbatch` takes code checkout, primary
 checkout, training-data directory, benchmark JSON, fresh run directory and
 `tadse` or `tadse_mlp` as its six arguments. It records the code commit and GPU.
 
+Use partition `voltagepark`, account `yejinchoi`, and QoS `yejinchoi` for these
+full runs. The initial submissions, jobs 54207 and 54208, used `normal`.
+Slurm denied changing QoS in place, so replacements use the account-authorized
+higher-priority QoS. Replacement job IDs are recorded in the experiment plan.
+This changes scheduling only, not the frozen training code, corpus or
+hyperparameters.
+The replacements are **54210 (TaDSE)** and **54211 (TaDSE w/ MLP)**; the original
+two jobs were cancelled while still pending.
+
 Both variants use the same frozen corpus and benchmark manifest. Final results
 are written to `<run>/table2.json`, with per-intent accuracy, wrong-prediction
 identities, source/checkpoint hashes and deltas to the selected Table 2 row.
