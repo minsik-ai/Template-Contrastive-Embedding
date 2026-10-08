@@ -1,0 +1,9 @@
+{
+  "file": "augment_data.py",
+  "source": "iCloud Desktop/software/private_tadse/data/massive/augment_data.py",
+  "last_source_commit": "48d5f94",
+  "last_source_commit_date": "2023-08-21",
+  "git_blob": "f1449244d365417824c2a44c6b3694c1fad33d64",
+  "sha256": "d7f3daa57b58e79c391d86caa9e5cb1aebc8b98f44188dabef2307a59a1636a6",
+  "preservation": "byte-for-byte; original SNIPS overwrite and serialization behavior retained"
+}

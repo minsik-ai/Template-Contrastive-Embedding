@@ -1,5 +1,9 @@
 # TaDSE experiment reconstruction
 
+This is the earlier reconstruction log. The original augmentation source was
+subsequently recovered from iCloud. See [Table 2 replication](table2-replication.md)
+for the current headline experiments using the preserved 2023 generator.
+
 This work reconstructs missing dependencies and synthetic data generation from
 the released code and paper. It does **not** establish that the published scores
 have been reproduced. Generated corpora, caches, environments, logs, and weights

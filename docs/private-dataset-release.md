@@ -1,5 +1,10 @@
 # Private dataset release workflow
 
+This report describes the **pre-recovery reconstructed candidate**. The original
+2023 generator was subsequently found in iCloud and preserved in `legacy/`.
+Current headline-model work uses that recovered source; see
+[Table 2 replication](table2-replication.md). No private upload has occurred.
+
 The requested destination is `minsik-oh/tadse-dialogue-augmentation-20261007`,
 private. Generation is **not** permission to publish mismatched data: the user
 requires verification against paper Table 1 before any upload. No GitHub push is

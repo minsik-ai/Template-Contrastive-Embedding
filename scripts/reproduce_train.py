@@ -101,7 +101,7 @@ def load_checkpoint(directory):
     return model, tokenizer
 
 
-def load_initial_model(source, model_args, *, revision="main", config=None):
+def load_initial_model(source, model_args, *, revision="main", config=None, map_inference_mlp=True):
     """Load a pretrained encoder without silently randomizing its inference MLP.
 
     The official SimCSE export renames ``mlp.dense`` to ``pooler.dense`` and
@@ -109,6 +109,8 @@ def load_initial_model(source, model_args, *, revision="main", config=None):
     wrapper, but does not restore the custom MLP name. Copy the loaded pooler
     only when both custom MLP parameters are absent. Partially loaded heads or
     missing encoder weights are errors, rather than a new random experiment.
+    ``map_inference_mlp=False`` explicitly preserves historical loading behavior:
+    a missing custom MLP remains freshly initialized, and this is logged.
     """
     BertForPatternCL = pattern_model_class()
     kwargs = {"model_args": SimpleNamespace(**model_args), "revision": revision,
@@ -129,15 +131,17 @@ def load_initial_model(source, model_args, *, revision="main", config=None):
             "pooler.dense.weight", "pooler.dense.bias"))
         if pooler_missing:
             raise ValueError("Checkpoint contains neither a complete custom MLP nor loaded BERT pooler")
-        model.mlp.dense.load_state_dict(model.bert.pooler.dense.state_dict())
-        mapping = "bert.pooler.dense -> mlp.dense (official SimCSE export naming)"
+        if map_inference_mlp:
+            model.mlp.dense.load_state_dict(model.bert.pooler.dense.state_dict())
+            mapping = "bert.pooler.dense -> mlp.dense (official SimCSE export naming)"
         missing -= mlp_keys
     unexpected_missing = sorted(key for key in missing
                                 if not key.startswith(("lm_head.", "ptn_transform."))
                                 and not key.endswith("position_ids"))
     if unexpected_missing:
         raise ValueError(f"Pretrained encoder/inference parameters were not loaded: {unexpected_missing}")
-    return model, {"loading_info": info, "inference_mlp_mapping": mapping}
+    return model, {"loading_info": info, "inference_mlp_mapping": mapping,
+                   "mode": "mapped_export" if map_inference_mlp else "original_no_mlp_remap"}
 
 
 def parser():
@@ -156,6 +160,13 @@ def parser():
     p.add_argument("--learning-rate", type=float, default=3e-5)
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--use-cpu", action="store_true")
+    p.add_argument("--legacy-head-initialization", action="store_true",
+                   help="Preserve original from_pretrained behavior; do not copy the pooler into a missing custom MLP")
+    p.add_argument("--keep-last-batch", action="store_true",
+                   help="Use the historical default of retaining the final incomplete batch")
+    p.add_argument("--logging-steps", type=int, default=1)
+    p.add_argument("--save-steps", type=int, default=0,
+                   help="Optional recovery checkpoints; keep the most recent two")
     p.add_argument("--pooler-type", choices=["cls", "cls_before_pooler", "avg", "avg_top2", "avg_first_last"], default="cls")
     p.add_argument("--mlp-only-train", action="store_true")
     p.add_argument("--apply-ptn-transform", action="store_true")
@@ -168,6 +179,8 @@ def parser():
 
 def main(argv=None):
     cli = parser().parse_args(argv)
+    if cli.logging_steps < 1 or cli.save_steps < 0:
+        raise ValueError("logging_steps must be positive and save_steps nonnegative")
     if cli.max_steps != -1 and cli.max_steps < 1:
         raise ValueError("max_steps must be -1 (epochs) or a positive integer")
     if cli.batch_size < 2 or cli.max_length < 2:
@@ -230,17 +243,28 @@ def main(argv=None):
         initialization = {"mode": "deliberately_random_tiny_bert"}
     else:
         model, initialization = load_initial_model(cli.model_name_or_path, model_args,
-                                                    revision=cli.revision, config=config)
+                                                    revision=cli.revision, config=config,
+                                                    map_inference_mlp=not cli.legacy_head_initialization)
     collator = FourViewCollator(tokenizer, cli.max_length)
     training_args = TrainingArguments(
         output_dir=str(cli.output_dir), max_steps=cli.max_steps,
         num_train_epochs=cli.num_train_epochs,
         per_device_train_batch_size=cli.batch_size, learning_rate=cli.learning_rate,
         seed=cli.seed, data_seed=cli.seed, use_cpu=cli.use_cpu or cli.tiny_random_bert,
-        report_to=[], save_strategy="no", logging_steps=1, remove_unused_columns=False,
-        dataloader_drop_last=True, dataloader_pin_memory=False,
+        report_to=[], save_strategy="steps" if cli.save_steps else "no",
+        save_steps=cli.save_steps or 500, save_total_limit=2,
+        logging_steps=cli.logging_steps, remove_unused_columns=False,
+        dataloader_drop_last=not cli.keep_last_batch, dataloader_pin_memory=False,
     )
     trainer = Trainer(model=model, args=training_args, train_dataset=pairs, data_collator=collator)
+    # Persist the constructor arguments before long jobs start, including for recovery checkpoints.
+    (cli.output_dir / "model_args.json").write_text(json.dumps(model_args, indent=2) + "\n")
+    plan = {key: str(value) if isinstance(value, Path) else value for key, value in vars(cli).items()}
+    plan.update(rows=len(pairs), initialization=initialization,
+                backbone_commit=getattr(config, "_commit_hash", None),
+                training_arguments=training_args.to_dict(),
+                train_sha256=hashlib.sha256(cli.train_file.read_bytes()).hexdigest() if cli.train_file else None)
+    (cli.output_dir / "run_plan.json").write_text(json.dumps(plan, indent=2) + "\n")
     probe = tokenizer([pair[0] for pair in pairs[:2]], padding=True, truncation=True,
                       max_length=cli.max_length, return_tensors="pt")
     model.eval()

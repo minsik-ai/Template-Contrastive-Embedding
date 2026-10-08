@@ -69,6 +69,12 @@ pip install -r requirements.txt
 
 ## Reconstructing the experiments
 
+The original 2023 augmentation script has now been recovered from an iCloud
+backup and preserved unchanged as `legacy/augment_data.py`. The
+[Table 2 headline replication](docs/table2-replication.md) replays that source;
+`data/massive/augment_data.py` remains the earlier reconstruction, not the
+historical script.
+
 The original augmentation script and environment lock were not included in the
 release. The new [reproduction guide](docs/reproduction.md) documents the recovered
 paper recipe, PW cluster setup, commands, and remaining gaps.
