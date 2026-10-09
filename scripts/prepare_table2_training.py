@@ -2,9 +2,10 @@
 """Replay recovered legacy augmentation and capture logical write records safely.
 
 Run with PYTHONHASHSEED=42. SNIPS's repeated output truncation is preserved: only
-its final intent remains in its trainable CSV. The recovered generator is never
-modified. CLINC reuses cached annotation records and original AST-loaded helpers.
-No new NER, normalization, held-out filtering, cap, or top-k override is added.
+its final intent remains in its trainable CSV by default. Explicit SNIPS options
+can change top-k and retain all intents in the trainable CSV. The recovered
+generator and its raw output behavior are never modified. CLINC reuses cached
+annotations. No new NER, normalization, held-out filtering, or cap is added.
 """
 import argparse
 import ast
@@ -37,9 +38,10 @@ def sha256(path):
 
 
 class WriteCapture:
-    def __init__(self, raw_path, csv_path, task):
+    def __init__(self, raw_path, csv_path, task, retain_all=False):
         self.raw_path, self.csv_path, self.task = raw_path, csv_path, task
         self.real_open = builtins.open
+        self.retain_all = retain_all
         self.write_attempts = self.retained_rows = self.output_opens = 0
         self.rows_per_open = []
 
@@ -47,19 +49,23 @@ class WriteCapture:
         if isinstance(file, (str, os.PathLike)) and Path(file).resolve() == self.raw_path:
             if mode != "w":
                 raise ValueError("Unexpected legacy output mode")
+            append = self.retain_all and self.output_opens > 0
             self.output_opens += 1
-            self.retained_rows = 0
+            if not append:
+                self.retained_rows = 0
             self.rows_per_open.append(0)
             return CapturedFile(self, self.real_open(file, mode, *args, **kwargs),
-                                self.real_open(self.csv_path, "w", encoding="utf-8", newline=""))
+                                self.real_open(self.csv_path, "a" if append else "w", encoding="utf-8", newline=""),
+                                write_header=not append)
         return self.real_open(file, mode, *args, **kwargs)
 
 
 class CapturedFile:
-    def __init__(self, capture, raw, sidecar):
+    def __init__(self, capture, raw, sidecar, write_header=True):
         self.capture, self.raw, self.sidecar = capture, raw, sidecar
         self.writer = csv.writer(sidecar)
-        self.writer.writerow(HEADER)
+        if write_header:
+            self.writer.writerow(HEADER)
 
     def __enter__(self):
         return self
@@ -165,11 +171,16 @@ def working_directory(path):
         os.chdir(before)
 
 
-def prepare(output, root, generator, extractor, clinc_splits, sources):
+def prepare(output, root, generator, extractor, clinc_splits, sources, *,
+            snips_top_k=5, snips_retain_all_intents=False):
     if os.environ.get("PYTHONHASHSEED") != "42":
         raise ValueError("Launch the interpreter with PYTHONHASHSEED=42 for reproducible legacy set iteration")
     if not sources or len(set(sources)) != len(sources) or any(source not in TOP_K for source in sources):
         raise ValueError("Sources must be distinct known datasets")
+    if snips_top_k < 0:
+        raise ValueError("SNIPS top-k must be nonnegative")
+    if "snips" not in sources and (snips_top_k != 5 or snips_retain_all_intents):
+        raise ValueError("SNIPS options require SNIPS in sources")
     if output.exists():
         raise FileExistsError("Choose a fresh output directory; legacy artifacts are preserved")
     output, root, generator, extractor, clinc_splits = [path.resolve() for path in (output, root, generator, extractor, clinc_splits)]
@@ -186,28 +197,38 @@ def prepare(output, root, generator, extractor, clinc_splits, sources):
     manifest = {"schema_version": 1, "recipe": "recovered 2023 generator main, unchanged; cached CLINC annotations with original helpers",
                 "original_generator": {"path": str(generator), "sha256": GENERATOR_HASH, "git_commit": "48d5f94"},
                 "pythonhashseed": "42", "columns": HEADER, "source_order": sources, "sources": {},
-                "limitations": ["SNIPS overwrites its output for each intent; only final SearchScreeningEvent rows survive.",
+                "limitations": [
+                    ("SNIPS trainable CSV retains all intent writes; raw output still contains only final SearchScreeningEvent rows."
+                     if snips_retain_all_intents else
+                     "SNIPS overwrites its output for each intent; only final SearchScreeningEvent rows survive."),
                                 "Legacy raw bytes are preserved; CSV reserialization captures complete write records including embedded newlines.",
                                 "No additional held-out filtering, cap, truncation, or annotation inference is applied.",
                                 "CLINC uses cached historical annotations; NER runtime and model are not rerun.",
                                 "Table 1 counts and Table 2 scores are not established by successful replay."]}
     for source in sources:
         raw, proper = output / f"{source}_legacy.csv", output / f"{source}_train.csv"
-        capture = WriteCapture(raw, proper, source)
+        retain_all = source == "snips" and snips_retain_all_intents
+        top_k = snips_top_k if source == "snips" else TOP_K[source]
+        capture = WriteCapture(raw, proper, source, retain_all=retain_all)
         with open(os.devnull, "w") as quiet, contextlib.redirect_stdout(quiet), working_directory(root), patch("builtins.open", capture.open):
             if source == "clinc":
                 rows = clinc_annotations(root / "clinc_raw_ner_spacy_lg_topk30.log", clinc_splits)
                 replay_clinc(rows, load_clinc_helpers(extractor), raw)
             else:
                 data_path = root / "snips" if source == "snips" else root / "massive_en-US.jsonl" if source == "massive" else root / "hwu64_orig.csv" if source == "hwu" else root
-                module["main"](str(data_path), "train", TOP_K[source], str(raw), source)
+                module["main"](str(data_path), "train", top_k, str(raw), source)
         with raw.open("rb") as handle:
             physical_lines = sum(1 for _ in handle)
-        manifest["sources"][source] = {"top_k": TOP_K[source], "write_attempts": capture.write_attempts,
+        manifest["sources"][source] = {"top_k": top_k, "write_attempts": capture.write_attempts,
+            "trainable_retention": "all_intents" if retain_all else "legacy_overwrite",
             "retained_rows": capture.retained_rows, "rows_per_output_open": capture.rows_per_open,
             "output_opens": capture.output_opens, "raw_physical_lines": physical_lines,
             "raw": {"output": raw.name, "sha256": sha256(raw)}, "trainable": {"output": proper.name, "sha256": sha256(proper)},
             "inputs": [{"path": str(path), "sha256": before[path]} for path in source_inputs(source, root, clinc_splits)]}
+        if source == "snips":
+            if capture.output_opens != len(SNIPS_LABELS):
+                raise ValueError("Unexpected SNIPS intent output count")
+            manifest["sources"][source]["rows_per_intent"] = dict(zip(SNIPS_LABELS, capture.rows_per_open))
     combined = output / "combined_train.csv"
     total = 0
     with combined.open("x", encoding="utf-8", newline="") as handle:
@@ -248,8 +269,12 @@ def main():
     parser.add_argument("--original-generator", type=Path, default=ROOT / "legacy/augment_data.py")
     parser.add_argument("--clinc-extractor", type=Path, default=ROOT / "data/massive/extract_ptn_clinc.py")
     parser.add_argument("--sources", nargs="+", choices=list(TOP_K), default=list(TOP_K))
+    parser.add_argument("--snips-top-k", type=int, default=5, help="SNIPS slot-value top-k (historical default: 5)")
+    parser.add_argument("--snips-retain-all-intents", action="store_true",
+                        help="Retain all seven intents in trainable CSV; raw output keeps historical overwrite behavior")
     args = parser.parse_args()
-    prepare(args.output_dir, args.data_root, args.original_generator, args.clinc_extractor, args.clinc_splits_json, args.sources)
+    prepare(args.output_dir, args.data_root, args.original_generator, args.clinc_extractor, args.clinc_splits_json, args.sources,
+            snips_top_k=args.snips_top_k, snips_retain_all_intents=args.snips_retain_all_intents)
 
 
 if __name__ == "__main__":

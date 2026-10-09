@@ -20,12 +20,12 @@ def sha256(path):
 
 
 class LegacyTrainingDataTests(unittest.TestCase):
-    def run_cli(self, root, output, sources, hashseed="42", generator=ORIGINAL):
+    def run_cli(self, root, output, sources, hashseed="42", generator=ORIGINAL, extra_args=()):
         env = dict(os.environ, PYTHONHASHSEED=hashseed)
         return subprocess.run([sys.executable, str(SCRIPT), "--data-root", str(root),
                                "--output-dir", str(output), "--sources", *sources,
                                "--original-generator", str(generator),
-                               "--clinc-splits-json", str(root / "clinc_splits.json")],
+                               "--clinc-splits-json", str(root / "clinc_splits.json"), *extra_args],
                               capture_output=True, text=True, check=False, env=env)
 
     def csv_rows(self, path):
@@ -68,6 +68,48 @@ class LegacyTrainingDataTests(unittest.TestCase):
                            check=True, stdout=subprocess.DEVNULL, env=dict(os.environ, PYTHONHASHSEED="42"))
             self.assertEqual(direct.read_bytes(), (output / "snips_legacy.csv").read_bytes())
             self.assertEqual(manifest["combined"]["sha256"], sha256(output / "combined_train.csv"))
+
+    def test_snips_all_intents_append_records_without_repeated_headers(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.snips_fixture(root)
+            legacy = root / "legacy"
+            complete = root / "complete"
+            self.assertEqual(self.run_cli(root, legacy, ["snips"]).returncode, 0)
+            result = self.run_cli(root, complete, ["snips"],
+                                  extra_args=("--snips-top-k", "2", "--snips-retain-all-intents"))
+            self.assertEqual(result.returncode, 0, result.stderr)
+            rows = self.csv_rows(complete / "snips_train.csv")
+            self.assertEqual(len(rows), 7)
+            self.assertEqual([row["utterance"] for row in rows[:6]], [f"intent {i}" for i in range(6)])
+            self.assertEqual(rows[-1], self.csv_rows(legacy / "snips_train.csv")[0])
+            self.assertEqual(self.csv_rows(complete / "combined_train.csv"), rows)
+            self.assertEqual((complete / "snips_legacy.csv").read_bytes(), (legacy / "snips_legacy.csv").read_bytes())
+            record = json.loads((complete / "manifest.json").read_text())["sources"]["snips"]
+            self.assertEqual(record["top_k"], 2)
+            self.assertEqual(record["trainable_retention"], "all_intents")
+            self.assertEqual(record["retained_rows"], 7)
+            self.assertEqual(record["rows_per_intent"], dict.fromkeys(LABELS, 1))
+
+    def test_snips_top_k_controls_original_slot_substitutions(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.snips_fixture(root)
+            for index, label in enumerate(LABELS):
+                path = root / "snips" / label / f"train_{label}_full.json"
+                path.write_text(json.dumps({label: [{"data": [
+                    {"text": f"intent {index} "}, {"text": f"city{index}", "entity": "city"}]}]}))
+            totals = []
+            for k in (1, 2):
+                output = root / f"k{k}"
+                result = self.run_cli(root, output, ["snips"], extra_args=(
+                    "--snips-top-k", str(k), "--snips-retain-all-intents"))
+                self.assertEqual(result.returncode, 0, result.stderr)
+                totals.append(len(self.csv_rows(output / "snips_train.csv")))
+            self.assertEqual(totals, [13, 19])
+            bad = self.run_cli(root, root / "bad", ["snips"], extra_args=("--snips-top-k", "-1"))
+            self.assertNotEqual(bad.returncode, 0)
+            self.assertFalse((root / "bad").exists())
 
     def test_clinc_cached_annotation_membership_and_original_helpers(self):
         with tempfile.TemporaryDirectory() as directory:

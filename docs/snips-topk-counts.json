@@ -1,0 +1,155 @@
+{
+  "source": "/Users/minsik/Desktop/Template-Contrastive-Embedding/legacy/augment_data.py",
+  "source_sha256": "d7f3daa57b58e79c391d86caa9e5cb1aebc8b98f44188dabef2307a59a1636a6",
+  "input_sha256": {
+    "/Users/minsik/Desktop/Template-Contrastive-Embedding/data/massive/snips/AddToPlaylist/train_AddToPlaylist_full.json": "fee1b4645352e70ed8a40f1f87c3b53fc3bf75f8ebc82252a22b82c107e75b01",
+    "/Users/minsik/Desktop/Template-Contrastive-Embedding/data/massive/snips/BookRestaurant/train_BookRestaurant_full.json": "7677e82cd6e9a8191f0a4502568c786278c984900b4796d3628e46f1abf73ef4",
+    "/Users/minsik/Desktop/Template-Contrastive-Embedding/data/massive/snips/GetWeather/train_GetWeather_full.json": "86f414b2ad8a993134d85d16e25e5d337beae47cef993c0af2a5f440405c60f6",
+    "/Users/minsik/Desktop/Template-Contrastive-Embedding/data/massive/snips/PlayMusic/train_PlayMusic_full.json": "901ddbe9781d1fdb8196e789c543f80df3d29ca6e237da64947905adcc0312e4",
+    "/Users/minsik/Desktop/Template-Contrastive-Embedding/data/massive/snips/RateBook/train_RateBook_full.json": "bb43e4b74134300d5766f6b420d0357a63402987a225f6dc92c806c9c040ce04",
+    "/Users/minsik/Desktop/Template-Contrastive-Embedding/data/massive/snips/SearchCreativeWork/train_SearchCreativeWork_full.json": "87b3432de48c71c205aa5238b41d9e3f2d70bdfcd0bea2427544fb9e4bd5e5bb",
+    "/Users/minsik/Desktop/Template-Contrastive-Embedding/data/massive/snips/SearchScreeningEvent/train_SearchScreeningEvent_full.json": "5447e9440c02e2fb08c3ae16b9f58a4d1332b4bc77fd34691402b02aa4399765"
+  },
+  "counting_unit": "One original output write per utterance-template pair; includes original utterances; per-example deduplication only.",
+  "encoding": "Original latin-1 decoding unchanged",
+  "all_intents_retained_in_count": true,
+  "generator_edited": false,
+  "corpora_written": false,
+  "original_rows_by_intent": {
+    "AddToPlaylist": 1942,
+    "BookRestaurant": 1973,
+    "GetWeather": 2000,
+    "PlayMusic": 2000,
+    "RateBook": 1956,
+    "SearchCreativeWork": 1954,
+    "SearchScreeningEvent": 1959
+  },
+  "runs": {
+    "0": {
+      "top_k": 0,
+      "total_pairs_all_intents": 13784,
+      "by_intent": {
+        "AddToPlaylist": 1942,
+        "BookRestaurant": 1973,
+        "GetWeather": 2000,
+        "PlayMusic": 2000,
+        "RateBook": 1956,
+        "SearchCreativeWork": 1954,
+        "SearchScreeningEvent": 1959
+      },
+      "total_legacy_physical_lines": 14078,
+      "last_intent_pairs_if_overwrite_left_in_place": 1959,
+      "original_printed_summary": [
+        "Write done : 13784",
+        "Slot count : 39, Slot Value count : 11928, template count : 13623, proced template count : 7437"
+      ],
+      "book_restaurant_share_percent": 14.313697040046431,
+      "five_dataset_pairs_if_other_sources_unchanged": 684276
+    },
+    "1": {
+      "top_k": 1,
+      "total_pairs_all_intents": 27492,
+      "by_intent": {
+        "AddToPlaylist": 3883,
+        "BookRestaurant": 3938,
+        "GetWeather": 3975,
+        "PlayMusic": 3980,
+        "RateBook": 3904,
+        "SearchCreativeWork": 3908,
+        "SearchScreeningEvent": 3904
+      },
+      "total_legacy_physical_lines": 28078,
+      "last_intent_pairs_if_overwrite_left_in_place": 3904,
+      "original_printed_summary": [
+        "Write done : 27492",
+        "Slot count : 39, Slot Value count : 11928, template count : 13623, proced template count : 7437"
+      ],
+      "book_restaurant_share_percent": 14.324167030408846,
+      "five_dataset_pairs_if_other_sources_unchanged": 697984
+    },
+    "2": {
+      "top_k": 2,
+      "total_pairs_all_intents": 115378,
+      "by_intent": {
+        "AddToPlaylist": 15975,
+        "BookRestaurant": 28663,
+        "GetWeather": 13644,
+        "PlayMusic": 13276,
+        "RateBook": 22412,
+        "SearchCreativeWork": 8792,
+        "SearchScreeningEvent": 12616
+      },
+      "total_legacy_physical_lines": 118076,
+      "last_intent_pairs_if_overwrite_left_in_place": 12616,
+      "original_printed_summary": [
+        "Write done : 115378",
+        "Slot count : 39, Slot Value count : 11928, template count : 13623, proced template count : 7437"
+      ],
+      "book_restaurant_share_percent": 24.842690980949573,
+      "five_dataset_pairs_if_other_sources_unchanged": 785870
+    },
+    "3": {
+      "top_k": 3,
+      "total_pairs_all_intents": 440594,
+      "by_intent": {
+        "AddToPlaylist": 50770,
+        "BookRestaurant": 188997,
+        "GetWeather": 40437,
+        "PlayMusic": 39975,
+        "RateBook": 67786,
+        "SearchCreativeWork": 16606,
+        "SearchScreeningEvent": 36023
+      },
+      "total_legacy_physical_lines": 449894,
+      "last_intent_pairs_if_overwrite_left_in_place": 36023,
+      "original_printed_summary": [
+        "Write done : 440594",
+        "Slot count : 39, Slot Value count : 11928, template count : 13623, proced template count : 7437"
+      ],
+      "book_restaurant_share_percent": 42.89595409833089,
+      "five_dataset_pairs_if_other_sources_unchanged": 1111086
+    },
+    "4": {
+      "top_k": 4,
+      "total_pairs_all_intents": 1509341,
+      "by_intent": {
+        "AddToPlaylist": 125116,
+        "BookRestaurant": 916724,
+        "GetWeather": 98009,
+        "PlayMusic": 99388,
+        "RateBook": 156706,
+        "SearchCreativeWork": 27350,
+        "SearchScreeningEvent": 86048
+      },
+      "total_legacy_physical_lines": 1536111,
+      "last_intent_pairs_if_overwrite_left_in_place": 86048,
+      "original_printed_summary": [
+        "Write done : 1509341",
+        "Slot count : 39, Slot Value count : 11928, template count : 13623, proced template count : 7437"
+      ],
+      "book_restaurant_share_percent": 60.73670562185749,
+      "five_dataset_pairs_if_other_sources_unchanged": 2179833
+    },
+    "5": {
+      "top_k": 5,
+      "total_pairs_all_intents": 4658326,
+      "by_intent": {
+        "AddToPlaylist": 260277,
+        "BookRestaurant": 3473640,
+        "GetWeather": 204515,
+        "PlayMusic": 212561,
+        "RateBook": 307210,
+        "SearchCreativeWork": 41024,
+        "SearchScreeningEvent": 159099
+      },
+      "total_legacy_physical_lines": 4726186,
+      "last_intent_pairs_if_overwrite_left_in_place": 159099,
+      "original_printed_summary": [
+        "Write done : 4658326",
+        "Slot count : 39, Slot Value count : 11928, template count : 13623, proced template count : 7437"
+      ],
+      "book_restaurant_share_percent": 74.56841792523753,
+      "five_dataset_pairs_if_other_sources_unchanged": 5328818
+    }
+  }
+}
