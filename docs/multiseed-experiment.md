@@ -1,3 +1,8 @@
+> Protocol update (2026-10-10): running training jobs are preserved. Their
+> reconstructed evaluation outputs remain historical diagnostics; rank models
+> using subsequent recovered-code evaluations, consistently across all seeds.
+> See `recovered-evaluation.md`.
+
 # Paired non-MLP TaDSE replication across seeds
 
 Compare existing legacy top-5 and all-intent top-2 training corpora at seeds

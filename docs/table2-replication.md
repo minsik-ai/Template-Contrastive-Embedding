@@ -1,3 +1,8 @@
+> Protocol update (2026-10-10): use the recovered evaluator for model selection.
+> The canonical-HWU results below are historical reconstruction results, not the
+> current release-selection protocol. Existing checkpoints will be re-scored;
+> training is unchanged. See `recovered-evaluation.md`.
+
 # Table 2 headline-model replication
 
 Scope: train **TaDSE** and **TaDSE w/ MLP**, with an initial SimCSE control. The

@@ -241,7 +241,7 @@ def main(argv=None):
     p.add_argument("--profile", choices=["recovered", "canonical"], default="recovered")
     p.add_argument("--snips-root", type=Path)
     p.add_argument("--atis-root", type=Path)
-    p.add_argument("--hwu-profile", choices=["canonical-fold", "raw-match"], default="canonical-fold")
+    p.add_argument("--hwu-profile", choices=["canonical-fold", "raw-match"], default="raw-match")
     p.add_argument("--massive-jsonl", required=True, type=Path)
     p.add_argument("--clinc-json", type=Path)
     p.add_argument("--hwu-dir", type=Path)

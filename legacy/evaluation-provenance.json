@@ -1,0 +1,19 @@
+{
+  "source": "iCloud Desktop/software/private_tadse",
+  "source_commit": "48d5f94",
+  "files": {
+    "accuracy_infer.py": {
+      "source_path": "data/massive/accuracy_infer.py",
+      "sha256": "abc573b62ccecd203f9ff0454d82e47af446a508d7b2944d261b8c04829ef7d0",
+      "git_blob": "2d75ad7f7b7a49ebb163ec41daa0be47bb886397",
+      "preservation": "byte-identical git show 48d5f94:data/massive/accuracy_infer.py"
+    },
+    "simcse_tool.py": {
+      "source_path": "data/massive/simcse/tool.py",
+      "sha256": "d67a2fc6dec066ce7e85534e82f2cd23725592ebbf1ba1bd0b12bb3a4196fdde",
+      "git_blob": "12b9a098f55b723601056a35ea77021892594eb4",
+      "preservation": "byte-identical git show 48d5f94:data/massive/simcse/tool.py"
+    }
+  },
+  "execution": "Table 2 utterance-only wrapper; non-CLINC loader statements, SimCSE.encode, and _search executed unchanged. CLINC official plus JSON adapter bypasses unused pattern CSVs. Historical invocation flags not recovered."
+}
