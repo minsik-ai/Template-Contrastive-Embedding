@@ -17,6 +17,8 @@ DATA="${3:?verified legacy replay directory}"
 BENCHMARKS="${4:?five-dataset benchmark JSON}"
 OUT="${5:?fresh run directory}"
 VARIANT="${6:?tadse or tadse_mlp}"
+SEED="${7:-42}"
+[[ "$SEED" =~ ^[0-9]+$ ]] || exit 2
 [[ "$VARIANT" == tadse || "$VARIANT" == tadse_mlp ]] || exit 2
 [[ ! -e "$OUT" ]] || { echo "Preserving existing run: $OUT" >&2; exit 2; }
 cd "$CODE"
@@ -46,7 +48,7 @@ FLAGS=()
     --model-name-or-path princeton-nlp/unsup-simcse-bert-base-uncased \
     --revision 218baf6bc48c463a53f5b4e1c568299537fab124 \
     --output-dir "$OUT/model" --max-steps -1 --num-train-epochs 2 \
-    --batch-size 16 --learning-rate 1e-8 --max-length 32 --seed 42 \
+    --batch-size 16 --learning-rate 1e-8 --max-length 32 --seed "$SEED" \
     --pooler-type cls --legacy-head-initialization --keep-last-batch \
     --simcse-utt-loss-ratio 1 --simcse-ptn-loss-ratio 1 \
     --pairwise-loss-ratio 0.5 --pairwise-neg-type utterance \
