@@ -109,8 +109,7 @@ def evaluate(args):
             if args.clinc_splits_json is None:
                 raise ValueError("CLINC requires --clinc-splits-json")
             report["inputs"][str(args.clinc_splits_json.resolve())] = sha256(args.clinc_splits_json)
-        with (real_open(args.output.with_suffix(f".{task}.log"), "w") as log,
-              patch("builtins.open", tracked_open), contextlib.redirect_stdout(log)):
+        with real_open(args.output.with_suffix(f".{task}.log"), "w") as log, patch("builtins.open", tracked_open), contextlib.redirect_stdout(log):
             train, valid, test = load_rows(task, data_root, args.clinc_splits_json, namespace)
         if not train or not test:
             raise ValueError(f"Empty reference/test split for {task}")

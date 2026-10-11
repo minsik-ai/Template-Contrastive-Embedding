@@ -1,0 +1,48 @@
+{
+  "source_repository": "/Users/minsik/Library/Mobile Documents/com~apple~CloudDocs/Desktop/software/private_tadse",
+  "source_commit": "48d5f94e566ff621309079f904f2a667cf0bec4b",
+  "recovery": "Exact git blobs; no source modifications. No root README was tracked in this revision.",
+  "files": [
+    {
+      "path": "model/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "model/pairwise_pattern_train.py",
+      "bytes": 26629,
+      "sha256": "211ab55a7a079d978cee43cdb6d0ea8278f4f461feaade820a4b1ceec6bfd51a",
+      "git_blob": "26579b9d736e74e63ebf2da087a0bb5c6ea8b10c"
+    },
+    {
+      "path": "model/tadse/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "model/tadse/models.py",
+      "bytes": 17488,
+      "sha256": "bfa270b3d3196c7b1aba1fa5fe5a8df0f3dc9aa80bd4f4904d966f269d0c5111",
+      "git_blob": "8a7f9eaafbcca10cfe1e25b171444d2ca2c955e2"
+    },
+    {
+      "path": "model/tadse/trainers.py",
+      "bytes": 28584,
+      "sha256": "f0db981279e20d9c8b095616a200125b85932bb3bbffff582bdf59ec1938848e",
+      "git_blob": "6735322b817bb1720eddaff32c4986b80511f71b"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 234,
+      "sha256": "b227336b9bde6f38cab9bf0fb99303dd432e309c5ab8100163d0caf668de9de9",
+      "git_blob": "6ebc885eae71d795df53f7da1774e3383076c690"
+    }
+  ],
+  "missing": [
+    "SentEval imported unconditionally from a historical absolute path; absent from recovered git tree",
+    "Original experiment launch commands and complete resolved environment lock",
+    "Historical merged training CSV and initial/final training artifacts"
+  ]
+}

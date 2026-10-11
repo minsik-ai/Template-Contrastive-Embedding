@@ -1,3 +1,4 @@
+# For original training use scripts/setup_recovered_training.sh; see docs/recovered-training.md.
 # Reconstructed baseline for Python 3.11; not the original paper environment.
 # See docs/dependencies.md for CUDA selection and optional legacy utilities.
 torch==2.7.1

@@ -61,6 +61,12 @@ Backbones: BERT, RoBERTa, and Qwen3 (`BertForPatternCL`, `RobertaForPatternCL`,
 
 ## Setup
 
+For paper reproduction, use the **recovered original training stack** described in
+[docs/recovered-training.md](docs/recovered-training.md). It runs the original
+entry point and custom `CLTrainer` in an isolated Python 3.8 / Transformers 4.2.1
+environment. The Python 3.11 instructions below describe the earlier modern
+compatibility runner, not the recovered training stack.
+
 Use Python 3.11 for the reconstructed dependency baseline:
 
 ```bash
