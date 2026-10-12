@@ -1,5 +1,5 @@
 ---
-pretty_name: TaDSE Dialogue Pairs
+pretty_name: Template Dialogue Pairs
 language:
 - en
 task_categories:
@@ -10,8 +10,6 @@ tags:
 - contrastive-learning
 - synthetic
 - template-augmentation
-size_categories:
-- 100K<n<1M
 configs:
 - config_name: combined
   default: true
@@ -44,11 +42,11 @@ configs:
   - split: train
     path: data/clinc-train.parquet
 ---
-# TaDSE Dialogue Pairs
+# Template Dialogue Pairs
 
-**785,870 English utterance-template pairs** for dialogue representation learning,
+English utterance-template pairs for dialogue representation learning,
 combining original and synthetically augmented examples from five datasets.
-This is the training corpus used by [TaDSE BERT Base](https://huggingface.co/minsik-oh/tadse-bert-base-uncased).
+This is the training corpus used by [Template Dialogue Embedding](https://huggingface.co/minsik-oh/template-dialogue-embedding).
 
 ## Load
 
@@ -56,12 +54,11 @@ This is the training corpus used by [TaDSE BERT Base](https://huggingface.co/min
 from datasets import load_dataset
 
 pairs = load_dataset(
-    "minsik-oh/tadse-top2-dialogue-pairs",
+    "minsik-oh/template-dialogue-pairs",
     "combined",
     split="train",
     token=True,
 )
-print(len(pairs))  # 785870
 print(pairs[0])
 ```
 
@@ -71,21 +68,8 @@ config `snips`, `atis`, `massive`, `hwu` or `clinc` for one source. Only the
 
 ## Contents
 
-Top-k is the number of frequent slot values selected for augmentation.
-Counts include original and augmented examples, retaining their multiplicity.
-
-| Source | Top-k | Training pairs |
-| --- | ---: | ---: |
-| SNIPS, all seven intents | 2 | 115,378 |
-| ATIS | 2 | 238,847 |
-| MASSIVE, en-US | 3 | 78,289 |
-| HWU | 3 | 133,176 |
-| CLINC | 5 | 220,180 |
-| **Total** | — | **785,870** |
-
-SNIPS pairs by intent: AddToPlaylist 15,975; BookRestaurant 28,663; GetWeather
-13,644; PlayMusic 13,276; RateBook 22,412; SearchCreativeWork 8,792;
-SearchScreeningEvent 12,616.
+The corpus combines SNIPS (all seven intents), ATIS, MASSIVE (en-US), HWU
+and CLINC, including original and synthetically augmented examples.
 
 ## Columns
 

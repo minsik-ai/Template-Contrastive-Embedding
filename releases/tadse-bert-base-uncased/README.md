@@ -10,7 +10,7 @@ tags:
 - model-merge
 - bert
 ---
-# TaDSE BERT Base — Dialogue Embeddings
+# Template Dialogue Embedding
 
 TaDSE produces **768-dimensional embeddings** for dialogue utterances. This
 release combines two TaDSE checkpoints with a fixed 50/50 weight average and
@@ -28,7 +28,7 @@ import torch
 import torch.nn.functional as F
 from transformers import AutoModel, AutoTokenizer
 
-model_id = "minsik-oh/tadse-bert-base-uncased"
+model_id = "minsik-oh/template-dialogue-embedding"
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModel.from_pretrained(model_id).eval()
 tokens = tokenizer(["Book a table for two", "Reserve a restaurant"],
@@ -49,7 +49,7 @@ Intent classification uses utterance-only cosine nearest-neighbour retrieval
 against each dataset's training references. The same released model is used
 for every dataset.
 
-| Dataset | Test examples | SimCSE | TaDSE BERT Base |
+| Dataset | Test examples | SimCSE | Template Dialogue Embedding |
 | --- | ---: | ---: | ---: |
 | SNIPS | 700 | 92.00 | 96.00 |
 | ATIS | 893 | 85.67 | 89.59 |
@@ -65,9 +65,9 @@ model selection. Exact results are in `evaluation.json`.
 
 ## Training
 
-Training data: [TaDSE Dialogue Pairs](https://huggingface.co/datasets/minsik-oh/tadse-top2-dialogue-pairs),
-**785,870 utterance-template pairs** from SNIPS, ATIS, MASSIVE, HWU and CLINC.
-The dataset card documents per-source augmentation settings and counts.
+Training data: [Template Dialogue Pairs](https://huggingface.co/datasets/minsik-oh/template-dialogue-pairs),
+utterance-template pairs from SNIPS, ATIS, MASSIVE, HWU and CLINC.
+Detailed generation settings are recorded in the dataset provenance.
 
 Both checkpoints initialize from `princeton-nlp/unsup-simcse-bert-base-uncased`,
 revision `218baf6bc48c463a53f5b4e1c568299537fab124`, including its trained shared
