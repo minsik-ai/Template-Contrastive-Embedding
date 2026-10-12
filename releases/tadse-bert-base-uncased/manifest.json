@@ -2,23 +2,34 @@
   "repo_id": "minsik-oh/tadse-bert-base-uncased",
   "url": "https://huggingface.co/minsik-oh/tadse-bert-base-uncased",
   "private_verified": true,
-  "revision": "164c81e2bc410b8f302aa29166ceb70580ff1a72",
+  "revision": "5b890385ac82c80bf246731b82addea23a8dfa7b",
+  "previous_revision": "164c81e2bc410b8f302aa29166ceb70580ff1a72",
   "files_sha256": {
-    "README.md": "83d2ec618031afb7d4d9b4415b02400a2a458c698031fc3a0aee8699436aa455",
+    "README.md": "8702ccd2e12bbd1fe96d44dc6a3b06915968adb3ac9079b511c47de8be3eefe3",
     "config.json": "833b3098dffdda49db4e8c3f713999d7eb8a38ccf6774a35ba9ffe146a754bda",
-    "evaluation.json": "d75db3062cff867be71482bec08266c8ea0fcd2eab8a55757a065aba9c7148ca",
-    "export-audit.json": "60d7e3cb7a1dafac0cd93407028f535ba0827e534c9d2d9a4ac87be25d6acb55",
-    "model.safetensors": "6745e6d56302196b08d2d5f1891fefb30b6fbb74f0a5f3353c837c922b320a86",
-    "special_tokens_map.json": "5d5b662e421ea9fac075174bb0688ee0d9431699900b90662acd44b2a350503a",
-    "tokenizer.json": "249860cd653a52521590ab20cc8799256110f641aaa508645504d3f6f1bf8ddc",
-    "tokenizer_config.json": "b6456bf27b64644a3ffec5fd9677767334f07ff0fbb42be7684374e6c94732fe",
-    "training_model_args.json": "be3efbe3cb4800084c593f2b183aac222f72107fde055d247c7ac1c122f73f32",
+    "evaluation.json": "daabec5b1f403ab9b2c54bf5187ffa1d0667fd476bf520a11146fc4c8df3d279",
+    "merge-audit.json": "0aa0a411558a6500138b3e2a63bdb3c7842ae9b256bce7ddb732ab9f70ee1fd2",
+    "model.safetensors": "629ca36cd0a8aa99ca043ddcbdbf05d0e4f91e7c033aefff8ca44d67ca3ad49e",
+    "serialization-audit.json": "3a0465c63e71df0f8751f00a0b596793510ff9ea7fc1487272a200d82044e8bd",
+    "special_tokens_map.json": "b6d346be366a7d1d48332dbc9fdf3bf8960b5d879522b7799ddba59e76237ee3",
+    "tokenizer.json": "2fc687b11de0bc1b3d8348f92e3b49ef1089a621506c7661fbf3248fcd54947e",
+    "tokenizer_config.json": "7b082b48a08a0b5c5939d99472e33addce3d96202155e33f7928cecd171186a0",
+    "training-recipe.json": "74601f3ea6219ea627b8f4d66063502d164a326e3fdd7eae0f16d36fbde8f3e9",
     "vocab.txt": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3"
   },
   "download_hashes_verified": true,
-  "source_code_commit": "a1a96a4",
-  "variant": "tadse",
-  "trained_head_export": true,
-  "training_rows": 829591,
-  "test_mean_accuracy": 83.24428864916902
+  "source_code_commit": "29e16cf",
+  "variant": "top2_50_50_nonmlp_mlp_merge",
+  "weights": [
+    0.5,
+    0.5
+  ],
+  "training_rows_per_parent": 785870,
+  "seed": 42,
+  "test_mean_accuracy": 83.96792567576395,
+  "serialization_max_abs_diff": 0.0,
+  "removed_obsolete_files": [
+    "export-audit.json",
+    "training_model_args.json"
+  ]
 }
