@@ -10,28 +10,50 @@ forms of the utterance, e.g. `play [artist:Adele]` → `play [artist]`). It exte
 SimCSE with an additional pattern-contrastive objective and a pairwise
 utterance↔pattern alignment loss.
 
+## Released model and dataset
+
+- [Template Dialogue Embedding](https://huggingface.co/minsik-oh/template-dialogue-embedding): a BERT encoder for English dialogue utterances.
+- [Template Dialogue Pairs](https://huggingface.co/datasets/minsik-oh/template-dialogue-pairs): the utterance–template training data used for the released model.
+
+The model works with standard Transformers. Use the exported **pooler output**
+and normalize it for cosine similarity; the template projection is training-only.
+
+```python
+import torch
+import torch.nn.functional as F
+from transformers import AutoModel, AutoTokenizer
+
+model_id = "minsik-oh/template-dialogue-embedding"
+tokenizer = AutoTokenizer.from_pretrained(model_id)
+model = AutoModel.from_pretrained(model_id).eval()
+tokens = tokenizer(["Book a flight to Boston", "Find flights to Boston"],
+                   padding=True, truncation=True, max_length=128,
+                   return_tensors="pt")
+with torch.inference_mode():
+    embeddings = F.normalize(model(**tokens).pooler_output, p=2, dim=-1)
+```
+
+For training, head export, merging and recovered evaluation, follow the
+[released-model reproduction guide](docs/released-model.md). The release is a
+newly trained checkpoint; it is not the original paper checkpoint.
+
 ## Repository layout
 
 ```
-data/massive/          Datasets + preprocessing (MASSIVE, ATIS, SNIPS, CLINC, HWU64)
-  proc_data.py         Data processing utilities
-  augment_data.py      Pattern/augmentation generation
-  extract_ptn_clinc.py Pattern extraction (CLINC, via spaCy NER)
-  simcse/              Vendored SimCSE tool for sentence embedding utilities
-  joint/               MASSIVE joint intent+slot splits (train/dev/test)
-  snips/               SNIPS intent data
+data/massive/          Bundled source datasets and preprocessing
+legacy/
+  augment_data.py     Recovered augmentation source
+  accuracy_infer.py   Recovered evaluation source
+  simcse_tool.py      Recovered embedding/search implementation
+  training/           Original entry point, custom CLTrainer, model and collator
+scripts/              Portable release preparation, training, export and evaluation
 model/
-  tadse/
-    models.py          BertForPatternCL / RobertaForPatternCL / Qwen3ForPatternCL
-                       + cl_init / cl_forward (utterance+pattern contrastive loss)
-    trainers.py        HuggingFace Trainer subclass (CLTrainer)
-  pairwise_pattern_train.py   Pre-training entry point (HF-style args)
-  supervised/          Downstream JointBERT-style intent classification
-    main.py, trainer.py, data_loader.py, utils.py
-eval/
-  calc_align_uniform.py   Alignment/uniformity metrics (Wang & Isola)
-  repr_tsne.py            t-SNE visualization of learned representations
-requirements.txt
+  tadse/              Earlier compatibility models and experimental adaptations
+  supervised/         Downstream JointBERT-style intent classification
+eval/                 Alignment/uniformity and representation utilities
+docs/released-model.md   Published model reproduction guide
+releases/             Model/dataset cards and verified manifests
+requirements.txt      Modern preparation/runtime dependencies
 ```
 
 ## Method
@@ -59,62 +81,35 @@ Backbones: BERT, RoBERTa, and Qwen3 (`BertForPatternCL`, `RobertaForPatternCL`,
 (`cls`, `cls_before_pooler`, `pad_left_no_pooler`, `avg`, `avg_top2`,
 `avg_first_last`).
 
-## Setup
+## Setup and reproduction
 
-For paper reproduction, use the **recovered original training stack** described in
-[docs/recovered-training.md](docs/recovered-training.md). It runs the original
-entry point and custom `CLTrainer` in an isolated Python 3.8 / Transformers 4.2.1
-environment. The Python 3.11 instructions below describe the earlier modern
-compatibility runner, not the recovered training stack.
+The release uses the **recovered original training stack**, including the custom
+`CLTrainer`, model, collator and entry point preserved under `legacy/training/`.
+The [release guide](docs/released-model.md) gives portable commands to obtain the
+published training data, train both parent models, export their trained heads,
+and produce the fixed merged encoder. It separates the Python 3.11 preparation
+runtime from the Python 3.8 / Transformers 4.2.1 training runtime.
 
-Use Python 3.11 for the reconstructed dependency baseline:
+Recovered components and their adapters:
 
-```bash
-pip install -r requirements.txt
-```
+- `legacy/augment_data.py` — preserved augmentation source.
+- `scripts/prepare_table2_training.py` — replays that source with explicit
+  dataset settings and provenance; CLINC reuses its cached spaCy annotations.
+- `legacy/training/` — original custom training loop and TaDSE objectives.
+- `scripts/run_simcse_head_ablation.py` — initializes the shared contrastive head
+  from the pretrained SimCSE pooler before the original training entry point runs.
+- `scripts/export_recovered_training.py` — exports the trained utterance head into
+  a standalone BERT pooler and checks exact reload equivalence.
+- `scripts/merge_exported_models.py` — applies the fixed equal-weight merge.
+- `scripts/evaluate_recovered.py` — recovered utterance-only nearest-neighbour
+  evaluation, including the original HWU selection and CLINC OOS examples.
 
-## Reconstructing the experiments
-
-The original 2023 augmentation script has now been recovered from an iCloud
-backup and preserved unchanged as `legacy/augment_data.py`. The
-[Table 2 headline replication](docs/table2-replication.md) replays that source;
-`data/massive/augment_data.py` remains the earlier reconstruction, not the
-historical script.
-
-The original augmentation script and environment lock were not included in the
-release. The new [reproduction guide](docs/reproduction.md) documents the recovered
-paper recipe, PW cluster setup, commands, and remaining gaps.
-
-- `data/massive/augment_data.py` rebuilds training-only slot substitutions from
-  the bundled sources, with split-overlap filtering, CSV output and provenance.
-- `scripts/reproduce_train.py` trains BERT with the existing TaDSE objective and
-  the maintained Transformers Trainer, then verifies checkpoint reload.
-- `scripts/evaluate_reproduction.py` runs MASSIVE cosine 1NN with
-  validation-selected semantic compression and an initialization baseline.
-- `scripts/reproduce_pw.sbatch` runs a bounded pilot or two-epoch experiment on PW.
-
-These are reconstructed experiments, not a verified reproduction of the paper's
-reported results. In particular, the bundled SNIPS inputs do not recover the
-paper's augmented dataset size. See the guide before launching pooled training.
-The historical training commands below remain for reference; use the new runner
-for the tested BERT path.
-
-For gated dataset packaging and private Hub upload, see the
-[private dataset release workflow](docs/private-dataset-release.md). The current
-candidate fails the paper-count checks and has **not been uploaded**.
-
-## Pre-training TaDSE
-
-```bash
-python model/pairwise_pattern_train.py \
-  --model_name_or_path bert-base-uncased \
-  --train_file data/massive/... \
-  --output_dir runs/tadse-bert \
-  --do_train
-```
-See `ModelArguments` / `DataTrainingArguments` in
-`model/pairwise_pattern_train.py` for all flags (loss ratios, temperatures,
-pooler type, pattern transform, etc.).
+The earlier reconstruction in `docs/reproduction.md`, the stock-Trainer runner
+`scripts/reproduce_train.py`, and older experiment notes remain as historical
+records. Use the release guide for the published model's recipe. The original
+historical launch command and complete environment lock were not recovered;
+re-running the released recipe does not establish exact reproduction of the
+paper's checkpoints or results.
 
 ## Downstream intent classification
 

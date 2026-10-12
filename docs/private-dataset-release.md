@@ -1,5 +1,5 @@
 > Current release (2026-10-12): the released BERT model uses the verified
-> all-intent top-2 corpus, now published privately as
+> dialogue-pair corpus, now publicly available as
 > [template-dialogue-pairs](https://huggingface.co/datasets/minsik-oh/template-dialogue-pairs).
 > See the [dataset card](../releases/tadse-top2-dialogue-pairs/README.md) and
 > [release manifest](../releases/tadse-top2-dialogue-pairs/manifest.json).

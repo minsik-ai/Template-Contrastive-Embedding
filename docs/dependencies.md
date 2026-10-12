@@ -1,3 +1,7 @@
+> Historical reconstruction notes. For the public model and its exact training
+> corpus, use the [released-model reproduction guide](released-model.md).
+> Earlier runners and evaluation protocols below are retained as experiment history.
+
 # Reconstructed dependency environment
 
 Use **Python 3.11** in a new virtual environment. `requirements.txt` pins the

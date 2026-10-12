@@ -1,8 +1,8 @@
 {
   "repo_id": "minsik-oh/template-dialogue-pairs",
   "url": "https://huggingface.co/datasets/minsik-oh/template-dialogue-pairs",
-  "revision": "587ae7e976c82e6ee6b44dec17dc1ecb06b45d58",
-  "private_verified": true,
+  "revision": "5657d07b49f692f5f6d7f3564919af75e66fb6ad",
+  "private_verified": false,
   "total_rows": 785870,
   "source_counts": {
     "snips": 115378,
@@ -20,14 +20,14 @@
     "clinc"
   ],
   "files_sha256": {
-    "README.md": "381fdd29cef5659be7e4384629946e1d1f13a60c91890895456289e7d3612ef8",
+    "README.md": "50696be2cd3527dc7fce58eaa82570ee3965d7fa561193361bac6e396f2c4f55",
     "data/atis-train.parquet": "ef3b1479c67ff582a7937c3841bf54f2c859896fc1ad923c8aa72980a103064a",
     "data/clinc-train.parquet": "ba6fdae6cef582a578ee0a12654e914a670956736bb8cc68a705c6e348331b06",
     "data/hwu-train.parquet": "1c55c44d0533be7ff03a76591be8f726926a1f249c2babea68a702886e26e11a",
     "data/massive-train.parquet": "64651eb37c9b80eea2b7c89f4e414c76fed391233d1bf750a05c20ba28d0ed77",
     "data/snips-train.parquet": "421a025fb4ac63e638ee6f41062eb3e74897d72eaf801cad4aa3c08b14bf6b99",
     "provenance.json": "b76fa0d7e0beced5ab866feefb088d70dda766308300089fab05674344e3e4f8",
-    "verification.json": "0fb6ed2d7431eca82d0ab1d118d33a33743b010c855553a041bccf3bcf3a5a13"
+    "verification.json": "084970fb95100ed47b6d8ee6af3bd8d20a50327a72f0286572529882d75f9d38"
   },
   "download_hashes_verified": true,
   "hub_loaded_content_verified": true,
@@ -36,8 +36,9 @@
   "scope": "released-model-top2-training-pairs",
   "associated_model": {
     "repo_id": "minsik-oh/template-dialogue-embedding",
-    "revision": "f374f63f55feda1a2beee8238bede7f514346e78"
+    "revision": "07867599d28851f1a966492dcb93c48063d07171"
   },
-  "previous_revision": "63fd9fbcdd6ffb2361b64276cba57fdc0ee212e7",
-  "previous_repo_id": "minsik-oh/tadse-top2-dialogue-pairs"
+  "previous_revision": "587ae7e976c82e6ee6b44dec17dc1ecb06b45d58",
+  "previous_repo_id": "minsik-oh/tadse-top2-dialogue-pairs",
+  "public_verified": true
 }

@@ -39,7 +39,6 @@ with torch.inference_mode():
 print(embeddings @ embeddings.T)
 ```
 
-While the repository is private, authenticate with an authorized account.
 Pin a Hub revision for reproducibility. Mean pooling is not the evaluated
 representation.
 
@@ -49,19 +48,11 @@ Intent classification uses utterance-only cosine nearest-neighbour retrieval
 against each dataset's training references. The same released model is used
 for every dataset.
 
-| Dataset | Test examples | SimCSE | Template Dialogue Embedding |
-| --- | ---: | ---: | ---: |
-| SNIPS | 700 | 92.00 | 96.00 |
-| ATIS | 893 | 85.67 | 89.59 |
-| MASSIVE | 2,974 | 76.77 | 79.59 |
-| HWU | 830 | 81.08 | 82.41 |
-| CLINC | 5,500 | 71.00 | 72.25 |
-| Mean over five datasets | — | 81.30 | **83.97** |
-
-These scores describe this release and come from one seed. HWU uses raw-file
-split matching; CLINC includes out-of-scope queries. Existing source overlaps
-are retained. The merge ratio was fixed before evaluation, with no per-dataset
-model selection. Exact results are in `evaluation.json`.
+Evaluation uses the recovered utterance-only protocol. HWU uses raw-file split
+matching and CLINC includes out-of-scope queries; existing source overlaps are
+retained. Detailed single-seed results and settings are available in
+`evaluation.json`. The merge ratio was fixed before evaluation, with no
+per-dataset model selection.
 
 ## Training
 

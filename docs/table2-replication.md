@@ -1,3 +1,7 @@
+> Historical reconstruction notes. For the public model and its exact training
+> corpus, use the [released-model reproduction guide](released-model.md).
+> Earlier runners and evaluation protocols below are retained as experiment history.
+
 > Protocol update (2026-10-10): use the recovered evaluator for model selection.
 > The canonical-HWU results below are historical reconstruction results, not the
 > current release-selection protocol. Existing checkpoints will be re-scored;

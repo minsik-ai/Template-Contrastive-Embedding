@@ -1,3 +1,7 @@
+> Historical reconstruction notes. For the public model and its exact training
+> corpus, use the [released-model reproduction guide](released-model.md).
+> Earlier runners and evaluation protocols below are retained as experiment history.
+
 # TaDSE experiment reconstruction
 
 This is the earlier reconstruction log. The original augmentation source was

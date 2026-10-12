@@ -57,13 +57,11 @@ pairs = load_dataset(
     "minsik-oh/template-dialogue-pairs",
     "combined",
     split="train",
-    token=True,
 )
 print(pairs[0])
 ```
 
-While the repository is private, authenticate with an authorized account. Use
-config `snips`, `atis`, `massive`, `hwu` or `clinc` for one source. Only the
+Use config `snips`, `atis`, `massive`, `hwu` or `clinc` for one source. Only the
 `train` split is included. Pin a Hub revision for reproducibility.
 
 ## Contents

@@ -1,11 +1,11 @@
 {
   "repo_id": "minsik-oh/template-dialogue-embedding",
   "url": "https://huggingface.co/minsik-oh/template-dialogue-embedding",
-  "private_verified": true,
-  "revision": "f374f63f55feda1a2beee8238bede7f514346e78",
-  "previous_revision": "40f859838fe7aa215c22d44203cc65742ac008a2",
+  "private_verified": false,
+  "revision": "07867599d28851f1a966492dcb93c48063d07171",
+  "previous_revision": "f374f63f55feda1a2beee8238bede7f514346e78",
   "files_sha256": {
-    "README.md": "9062aee9105ef2eebee93fae6b9af9c694e0caf684e30f63908a4736fdaeda36",
+    "README.md": "79231a2ceb0f88484ff1d40fd82e054f19b4b3bbc94e1bbb42c13078ddf3a0f3",
     "config.json": "833b3098dffdda49db4e8c3f713999d7eb8a38ccf6774a35ba9ffe146a754bda",
     "evaluation.json": "daabec5b1f403ab9b2c54bf5187ffa1d0667fd476bf520a11146fc4c8df3d279",
     "merge-audit.json": "0aa0a411558a6500138b3e2a63bdb3c7842ae9b256bce7ddb732ab9f70ee1fd2",
@@ -32,5 +32,6 @@
     "export-audit.json",
     "training_model_args.json"
   ],
-  "previous_repo_id": "minsik-oh/tadse-bert-base-uncased"
+  "previous_repo_id": "minsik-oh/tadse-bert-base-uncased",
+  "public_verified": true
 }
