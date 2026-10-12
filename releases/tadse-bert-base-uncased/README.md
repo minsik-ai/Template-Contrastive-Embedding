@@ -77,3 +77,29 @@ Detailed reconstruction records remain in the source repository.
 Paper: [Template-assisted Contrastive Learning of Task-oriented Dialogue Sentence Embeddings](https://arxiv.org/abs/2305.14299)
 
 Source: https://github.com/minsik-ai/Template-Contrastive-Embedding
+
+## Citation
+
+If you use this model in your research, please cite our [ACL 2026 paper](https://aclanthology.org/2026.acl-long.1015/):
+
+```bibtex
+@inproceedings{oh-etal-2026-template,
+    title = "Template-assisted Contrastive Learning of Task-oriented Dialogue Sentence Embeddings",
+    author = "Oh, Minsik  and
+      Li, Jiwei  and
+      Wang, Guoyin",
+    editor = "Liakata, Maria  and
+      Moreira, Viviane P.  and
+      Zhang, Jiajun  and
+      Jurgens, David",
+    booktitle = "Proceedings of the 64th Annual Meeting of the {A}ssociation for {C}omputational {L}inguistics (Volume 1: Long Papers)",
+    month = jul,
+    year = "2026",
+    address = "San Diego, California, United States",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2026.acl-long.1015/",
+    doi = "10.18653/v1/2026.acl-long.1015",
+    pages = "22181--22198",
+    ISBN = "979-8-89176-390-6"
+}
+```
