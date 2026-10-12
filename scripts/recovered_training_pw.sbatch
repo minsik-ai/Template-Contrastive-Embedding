@@ -14,11 +14,14 @@ set -euo pipefail
 CODE="${1:?immutable code checkout}"
 WORK="${2:?primary checkout}"
 EXP="${3:?experiment root}"
+INITIALIZATION="${4:-original}"
+[[ "$INITIALIZATION" == original || "$INITIALIZATION" == simcse-head ]] || exit 2
 INDEX="${SLURM_ARRAY_TASK_ID:?array index}"
 [[ "$INDEX" =~ ^[01]$ ]] || exit 2
 VARIANT=tadse
 [[ "$INDEX" == 0 ]] || VARIANT=tadse_mlp
 OUT="$EXP/runs/$VARIANT-seed42"
+[[ "$INITIALIZATION" == original ]] || OUT="$OUT-simcse-head"
 [[ ! -e "$OUT" ]] || { echo "Preserving existing run: $OUT" >&2; exit 2; }
 PY="$WORK/.venv-legacy/bin/python"
 SENTEVAL="$WORK/artifacts/legacy-recovery-20261011/SentEval"
@@ -51,7 +54,11 @@ args=recovered_module().ModelArguments(model_name_or_path=model,pooler_type='cls
 PY
 FLAGS=()
 [[ "$VARIANT" != tadse_mlp ]] || FLAGS+=(--apply_ptn_transform)
-"$PY" legacy/training/model/pairwise_pattern_train.py \
+COMMAND=("$PY" legacy/training/model/pairwise_pattern_train.py)
+if [[ "$INITIALIZATION" == simcse-head ]]; then
+ COMMAND=("$PY" scripts/run_simcse_head_ablation.py --audit "$OUT/initialization-audit.json" --)
+fi
+"${COMMAND[@]}" \
  --model_name_or_path "$MODEL" --train_file "$DATA" \
  --output_dir "$OUT/model" --dataset_cache_path "$OUT/dataset-cache" \
  --do_train --num_train_epochs 2 --per_device_train_batch_size 16 \
