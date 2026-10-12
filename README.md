@@ -4,6 +4,10 @@ Paper: [Template-assisted Contrastive Learning of Task-oriented Dialogue Sentenc
 
 Accepted to **ACL 2026 (Oral)**.
 
+## News
+
+> **2026-10-12 — Model and dataset released!** Our [Template Dialogue Embedding model](https://huggingface.co/minsik-oh/template-dialogue-embedding) and [Template Dialogue Pairs dataset](https://huggingface.co/datasets/minsik-oh/template-dialogue-pairs) are now publicly available on Hugging Face. The recovered replication code and [reproduction guide](docs/released-model.md) are also available.
+
 TaDSE learns sentence embeddings for spoken/dialogue language understanding by
 jointly contrasting utterances and their underlying **patterns** (slot-templated
 forms of the utterance, e.g. `play [artist:Adele]` → `play [artist]`). It extends
