@@ -10,18 +10,16 @@ tags:
 - model-merge
 - bert
 ---
-# TaDSE BERT base — top-2 merged model
+# TaDSE BERT Base — Dialogue Embeddings
 
-Private release of a **50/50 weight average** of the exported top-2 TaDSE models,
-with and without the separate training-time pattern MLP. This is one standard
-BERT encoder with 768-dimensional embeddings. Use **`pooler_output`**.
+TaDSE produces **768-dimensional embeddings** for dialogue utterances. This
+release combines two TaDSE checkpoints with a fixed 50/50 weight average and
+runs as a single standard BERT encoder. Use **`pooler_output`** for embeddings.
 
-This is a reproduced and merged model, not the archived original paper checkpoint.
-Both parents start from the same pinned SimCSE backbone and initialize the shared
-contrastive head from its pretrained pooler. Each was trained with the recovered
-original TaDSE code and exported before averaging. The separate pattern MLP is
-not part of either inference export. Encoder and pooler weights are averaged;
-there is one forward pass per utterance, not a two-model ensemble.
+The two checkpoints were trained with and without an additional template
+projection. That projection is used only during training. The released model
+contains the averaged encoder and trained utterance head, with no custom
+inference code or additional forward pass required.
 
 ## Usage
 
@@ -41,16 +39,17 @@ with torch.inference_mode():
 print(embeddings @ embeddings.T)
 ```
 
-Private access requires an authenticated account with repository access. Pin the
-Hub revision recorded in the source repository release manifest for reproducibility.
-No custom model code is required. Mean pooling is not the evaluated representation.
+While the repository is private, authenticate with an authorized account.
+Pin a Hub revision for reproducibility. Mean pooling is not the evaluated
+representation.
 
 ## Evaluation
 
-Recovered utterance-only cosine nearest-neighbour intent evaluation, using all
-reference examples and a fixed merged encoder for every dataset:
+Intent classification uses utterance-only cosine nearest-neighbour retrieval
+against each dataset's training references. The same released model is used
+for every dataset.
 
-| Dataset | Test examples | SimCSE | Merged TaDSE |
+| Dataset | Test examples | SimCSE | TaDSE BERT Base |
 | --- | ---: | ---: | ---: |
 | SNIPS | 700 | 92.00 | 96.00 |
 | ATIS | 893 | 85.67 | 89.59 |
@@ -59,31 +58,30 @@ reference examples and a fixed merged encoder for every dataset:
 | CLINC | 5,500 | 71.00 | 72.25 |
 | Mean over five datasets | — | 81.30 | **83.97** |
 
-HWU uses recovered raw-file matching, not canonical KFold1. CLINC includes
-out-of-scope queries. Historical data overlaps are retained, not newly filtered.
-These are one-seed exploratory results; multi-seed robustness is not established.
-The 50/50 ratio was fixed before merged evaluation. No per-dataset model selection
-or ratio sweep was used. See `evaluation.json` for exact values.
+These scores describe this release and come from one seed. HWU uses raw-file
+split matching; CLINC includes out-of-scope queries. Existing source overlaps
+are retained. The merge ratio was fixed before evaluation, with no per-dataset
+model selection. Exact results are in `evaluation.json`.
 
-## Training and provenance
+## Training
 
-Base: `princeton-nlp/unsup-simcse-bert-base-uncased`, revision
-`218baf6bc48c463a53f5b4e1c568299537fab124`.
-Both parents use the same 785,870 utterance-template pairs across SNIPS, ATIS,
-MASSIVE, HWU and CLINC. SNIPS uses top-2 augmentation across all seven intents
-(115,378 pairs); the other sources retain the recovered recipe. Two epochs,
-batch 16, learning rate 1e-8, maximum training length 32, seed 42, FP32;
-utterance/template/pairwise loss weights 1/1/0.5 with utterance negatives.
+Training data: [TaDSE Dialogue Pairs](https://huggingface.co/datasets/minsik-oh/tadse-top2-dialogue-pairs),
+**785,870 utterance-template pairs** from SNIPS, ATIS, MASSIVE, HWU and CLINC.
+The dataset card documents per-source augmentation settings and counts.
 
-The original entry point, model and custom CLTrainer from private commit
-`48d5f94` are preserved unchanged. Transformers 4.2.1 was restored; Torch was
-historically unpinned, and these runs use 2.2.2+cu121. Exact historical launch
-arguments and merged training-file bytes remain unavailable.
+Both checkpoints initialize from `princeton-nlp/unsup-simcse-bert-base-uncased`,
+revision `218baf6bc48c463a53f5b4e1c568299537fab124`, including its trained shared
+contrastive head. Training uses two epochs, batch 16, learning rate 1e-8,
+maximum length 32, seed 42 and FP32. Utterance/template/pairwise loss weights
+are 1/1/0.5, with utterance negatives. The implementation uses the original
+TaDSE custom trainer with Transformers 4.2.1 and PyTorch 2.2.2+cu121.
 
-`merge-audit.json` identifies the two parent exports, their hashes and the fixed
-merge. `serialization-audit.json` records conversion to safetensors with identical
-model tensors and exact probe outputs. `training-recipe.json` records the recipe.
-The previous private candidate remains accessible through Hub commit history.
+## Provenance
+
+`training-recipe.json` records the release recipe. `merge-audit.json` identifies
+the checkpoint sources and hashes. `serialization-audit.json` verifies that
+safetensors conversion preserves model tensors and probe outputs exactly.
+Detailed reconstruction records remain in the source repository.
 
 Paper: [Template-assisted Contrastive Learning of Task-oriented Dialogue Sentence Embeddings](https://arxiv.org/abs/2305.14299)
 

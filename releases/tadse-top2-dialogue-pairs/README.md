@@ -1,5 +1,5 @@
 ---
-pretty_name: TaDSE Top-2 Dialogue Pairs
+pretty_name: TaDSE Dialogue Pairs
 language:
 - en
 task_categories:
@@ -44,17 +44,11 @@ configs:
   - split: train
     path: data/clinc-train.parquet
 ---
-# TaDSE Top-2 Dialogue Pairs
+# TaDSE Dialogue Pairs
 
-Private review release of the **exact 785,870 training pairs** used by both
-parents of [the merged TaDSE BERT release](https://huggingface.co/minsik-oh/tadse-bert-base-uncased).
-It contains original and synthetically augmented utterance-template pairs.
-"Top-2" refers to SNIPS; other sources retain their recovered top-k settings.
-
-This is the all-intent SNIPS top-2 variant, **not the paper's legacy top-5 corpus**.
-No new generation, NER, balancing, truncation or deduplication is performed during
-packaging. Pair multiplicity, text, embedded newlines and training order are
-preserved. Source metadata is added after the original three training columns.
+**785,870 English utterance-template pairs** for dialogue representation learning,
+combining original and synthetically augmented examples from five datasets.
+This is the training corpus used by [TaDSE BERT Base](https://huggingface.co/minsik-oh/tadse-bert-base-uncased).
 
 ## Load
 
@@ -71,69 +65,66 @@ print(len(pairs))  # 785870
 print(pairs[0])
 ```
 
-Authenticate with an account authorized for this private repository. Use config
-`snips`, `atis`, `massive`, `hwu` or `clinc` for one source. There is only a
-`train` split; evaluation datasets are not packaged here. Pin the Hub revision
-from the release manifest for reproducibility.
+While the repository is private, authenticate with an authorized account. Use
+config `snips`, `atis`, `massive`, `hwu` or `clinc` for one source. Only the
+`train` split is included. Pin a Hub revision for reproducibility.
 
-## Contents and paper comparison
+## Contents
 
-| Source | Top-k | Released pairs | Paper Table 1 utterances |
-| --- | ---: | ---: | ---: |
-| SNIPS, all seven intents | 2 | 115,378 | 163K, top-5 |
-| ATIS | 2 | 238,847 | 239K |
-| MASSIVE, en-US | 3 | 78,289 | 78K |
-| HWU | 3 | 133,176 | 133K |
-| CLINC | 5 | 220,180 | 220K |
-| **Total** | — | **785,870** | **834K** |
+Top-k is the number of frequent slot values selected for augmentation.
+Counts include original and augmented examples, retaining their multiplicity.
 
-The four non-SNIPS counts round to the displayed paper counts. SNIPS deliberately
-uses top-2 and retains all intents, unlike the recovered legacy output overwrite
-that kept only its final intent. Released counts are logical training records,
-not physical CSV lines. Numerical paper parity is not claimed for this variant.
+| Source | Top-k | Training pairs |
+| --- | ---: | ---: |
+| SNIPS, all seven intents | 2 | 115,378 |
+| ATIS | 2 | 238,847 |
+| MASSIVE, en-US | 3 | 78,289 |
+| HWU | 3 | 133,176 |
+| CLINC | 5 | 220,180 |
+| **Total** | — | **785,870** |
 
 SNIPS pairs by intent: AddToPlaylist 15,975; BookRestaurant 28,663; GetWeather
 13,644; PlayMusic 13,276; RateBook 22,412; SearchCreativeWork 8,792;
-SearchScreeningEvent 12,616. These follow the original generator's intent order.
+SearchScreeningEvent 12,616.
 
 ## Columns
 
 | Column | Meaning |
 | --- | --- |
-| `utterance` | Exact original or augmented utterance used for training |
-| `pattern` | Exact corresponding template, with generic `{SLOT}` markers |
+| `utterance` | Original or augmented utterance used for training |
+| `pattern` | Corresponding template, with generic `{SLOT}` markers |
 | `slot_count` | Number of `{SLOT}` markers in the pattern |
 | `source` | `snips`, `atis`, `massive`, `hwu` or `clinc` |
 | `source_row` | Zero-based position within that source's training CSV |
 
-Intent labels and original-versus-synthetic flags are not supplied: those were
-not retained as columns in the training artifact. `source_row` preserves record
-identity even when text pairs repeat. `combined` concatenates sources in this
-order: SNIPS, ATIS, MASSIVE, HWU, CLINC.
+Intent labels and original-versus-synthetic flags are not included. `source_row`
+preserves record identity when text pairs repeat. The `combined` configuration
+concatenates SNIPS, ATIS, MASSIVE, HWU and CLINC in that order.
 
-## Provenance and verification
+## Preparation and verification
 
-The original augmentation script was recovered byte-for-byte from private Git
-commit `48d5f94`; its SHA256 is
-`d7f3daa57b58e79c391d86caa9e5cb1aebc8b98f44188dabef2307a59a1636a6`.
-The top-2 adapter preserves all SNIPS intent writes in the trainable CSV without
-changing the generator's augmentation functions. CLINC reuses cached historical
-spaCy annotations; the other datasets use supplied annotations. No NER is run
-as part of packaging or evaluation.
+Templates use supplied slot annotations for SNIPS, ATIS, MASSIVE and HWU, and
+cached spaCy NER annotations for CLINC. The release retains all seven SNIPS
+intents. Packaging preserves the training text, encoding, embedded newlines,
+duplicates and order without further generation or normalization. Existing
+source overlap is retained; this is not a newly decontaminated dataset.
 
-The input combined CSV SHA256 is
+Every Parquet row was checked against the training CSVs. The complete dataset
+was also loaded from Hugging Face and checked for matching content and order.
+`provenance.json` records generation settings, input hashes and per-intent counts;
+`verification.json` records packaging checks. These files preserve detailed
+provenance beyond this release overview.
+
+Combined training CSV SHA256:
 `9b8404042073814afbf0a63670e8ef9919d722cf8bee1b7aea208ecdad696dd4`.
-`provenance.json` preserves the generation manifest, input hashes and per-intent
-counts. `verification.json` records the CSV/content/Parquet checks and file hashes.
-Every packaged row is checked against the source CSV and the original combined
-training order. No checkpoint, credential, environment or unrelated file is
-included.
 
-Historical decoding, duplicate pairs and source overlap are retained to match
-the trained model. This is not a newly decontaminated dataset. The exact original
-paper training file and launch configuration remain unavailable. Source datasets
-retain their respective licenses and attribution requirements; this private
-package does not assert a new blanket license.
+## Sources and attribution
+
+The source datasets retain their respective licenses and attribution requirements;
+this package does not assert a new blanket license. SNIPS attribution: Coucke,
+Alice, et al. (2018), *Snips Voice Platform: an embedded Spoken Language
+Understanding system for private-by-design voice interfaces*,
+[arXiv:1805.10190](https://arxiv.org/abs/1805.10190).
 
 Paper: [Template-assisted Contrastive Learning of Task-oriented Dialogue Sentence Embeddings](https://arxiv.org/abs/2305.14299)
 

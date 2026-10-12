@@ -1,7 +1,7 @@
 {
   "repo_id": "minsik-oh/tadse-top2-dialogue-pairs",
   "url": "https://huggingface.co/datasets/minsik-oh/tadse-top2-dialogue-pairs",
-  "revision": "4447031f5a94fb672cfa30f9f3485a1ba309087b",
+  "revision": "63fd9fbcdd6ffb2361b64276cba57fdc0ee212e7",
   "private_verified": true,
   "total_rows": 785870,
   "source_counts": {
@@ -20,14 +20,14 @@
     "clinc"
   ],
   "files_sha256": {
-    "README.md": "4c4d1aabff7e2974e6f98472795bd1dc5f1e59db46e40f20f35ad34f3c7ddc55",
+    "README.md": "770205d7b4466a592bb5d9087928ce35863907bcfbeed68fa07415874ba650c2",
     "data/atis-train.parquet": "ef3b1479c67ff582a7937c3841bf54f2c859896fc1ad923c8aa72980a103064a",
     "data/clinc-train.parquet": "ba6fdae6cef582a578ee0a12654e914a670956736bb8cc68a705c6e348331b06",
     "data/hwu-train.parquet": "1c55c44d0533be7ff03a76591be8f726926a1f249c2babea68a702886e26e11a",
     "data/massive-train.parquet": "64651eb37c9b80eea2b7c89f4e414c76fed391233d1bf750a05c20ba28d0ed77",
     "data/snips-train.parquet": "421a025fb4ac63e638ee6f41062eb3e74897d72eaf801cad4aa3c08b14bf6b99",
     "provenance.json": "b76fa0d7e0beced5ab866feefb088d70dda766308300089fab05674344e3e4f8",
-    "verification.json": "5574fdc3544649f8fb6e4084557e82ff2ba7ab6b576bbf8d6c9ae892686239fb"
+    "verification.json": "9efe30dc42b60baf636e5d2792947f6903e7c091fd57e69ae078b5f5d41babdb"
   },
   "download_hashes_verified": true,
   "hub_loaded_content_verified": true,
@@ -36,6 +36,7 @@
   "scope": "released-model-top2-training-pairs",
   "associated_model": {
     "repo_id": "minsik-oh/tadse-bert-base-uncased",
-    "revision": "5b890385ac82c80bf246731b82addea23a8dfa7b"
-  }
+    "revision": "40f859838fe7aa215c22d44203cc65742ac008a2"
+  },
+  "previous_revision": "4447031f5a94fb672cfa30f9f3485a1ba309087b"
 }

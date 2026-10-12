@@ -2,10 +2,10 @@
   "repo_id": "minsik-oh/tadse-bert-base-uncased",
   "url": "https://huggingface.co/minsik-oh/tadse-bert-base-uncased",
   "private_verified": true,
-  "revision": "5b890385ac82c80bf246731b82addea23a8dfa7b",
-  "previous_revision": "164c81e2bc410b8f302aa29166ceb70580ff1a72",
+  "revision": "40f859838fe7aa215c22d44203cc65742ac008a2",
+  "previous_revision": "5b890385ac82c80bf246731b82addea23a8dfa7b",
   "files_sha256": {
-    "README.md": "8702ccd2e12bbd1fe96d44dc6a3b06915968adb3ac9079b511c47de8be3eefe3",
+    "README.md": "6046c592777de26c6d2eec1a64266af22255f546f27065d0ef7baccc840d6bde",
     "config.json": "833b3098dffdda49db4e8c3f713999d7eb8a38ccf6774a35ba9ffe146a754bda",
     "evaluation.json": "daabec5b1f403ab9b2c54bf5187ffa1d0667fd476bf520a11146fc4c8df3d279",
     "merge-audit.json": "0aa0a411558a6500138b3e2a63bdb3c7842ae9b256bce7ddb732ab9f70ee1fd2",
