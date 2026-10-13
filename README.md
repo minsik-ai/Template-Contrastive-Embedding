@@ -6,7 +6,7 @@ Accepted to **ACL 2026 (Oral)**.
 
 ## News
 
-> **2026-10-12 — Model and dataset released!** Our [Template Dialogue Embedding model](https://huggingface.co/minsik-oh/template-dialogue-embedding) and [Template Dialogue Pairs dataset](https://huggingface.co/datasets/minsik-oh/template-dialogue-pairs) are now publicly available on Hugging Face. The recovered replication code and [reproduction guide](docs/released-model.md) are also available.
+> **2026-10-12 — Model and dataset released!** Our [Template Dialogue Embedding model](https://huggingface.co/minsik-oh/template-dialogue-embedding) and [Template Dialogue Pairs dataset](https://huggingface.co/datasets/minsik-oh/template-dialogue-pairs) are now publicly available on Hugging Face. The recovered replication code is also available in this repository.
 
 TaDSE learns sentence embeddings for spoken/dialogue language understanding by
 jointly contrasting utterances and their underlying **patterns** (slot-templated
@@ -37,9 +37,7 @@ with torch.inference_mode():
     embeddings = F.normalize(model(**tokens).pooler_output, p=2, dim=-1)
 ```
 
-For training, head export, merging and recovered evaluation, follow the
-[released-model reproduction guide](docs/released-model.md). The release is a
-newly trained checkpoint; it is not the original paper checkpoint.
+The release is a newly trained checkpoint; it is not the original paper checkpoint.
 
 ## Repository layout
 
@@ -55,7 +53,6 @@ model/
   tadse/              Earlier compatibility models and experimental adaptations
   supervised/         Downstream JointBERT-style intent classification
 eval/                 Alignment/uniformity and representation utilities
-docs/released-model.md   Published model reproduction guide
 releases/             Model/dataset cards and verified manifests
 requirements.txt      Modern preparation/runtime dependencies
 ```
@@ -85,14 +82,13 @@ Backbones: BERT, RoBERTa, and Qwen3 (`BertForPatternCL`, `RobertaForPatternCL`,
 (`cls`, `cls_before_pooler`, `pad_left_no_pooler`, `avg`, `avg_top2`,
 `avg_first_last`).
 
-## Setup and reproduction
+## Training code
 
 The release uses the **recovered original training stack**, including the custom
 `CLTrainer`, model, collator and entry point preserved under `legacy/training/`.
-The [release guide](docs/released-model.md) gives portable commands to obtain the
-published training data, train both parent models, export their trained heads,
-and produce the fixed merged encoder. It separates the Python 3.11 preparation
-runtime from the Python 3.8 / Transformers 4.2.1 training runtime.
+`scripts/prepare_public_training.py` prepares the published training inputs;
+`scripts/train_released_bert.sh` trains, exports and merges both parent models.
+`scripts/setup_recovered_training.sh` sets up the isolated training environment.
 
 Recovered components and their adapters:
 
@@ -110,8 +106,7 @@ Recovered components and their adapters:
 
 The earlier reconstruction in `docs/reproduction.md`, the stock-Trainer runner
 `scripts/reproduce_train.py`, and older experiment notes remain as historical
-records. Use the release guide for the published model's recipe. The original
-historical launch command and complete environment lock were not recovered;
+records. The original historical launch command and complete environment lock were not recovered;
 re-running the released recipe does not establish exact reproduction of the
 paper's checkpoints or results.
 

@@ -1,6 +1,6 @@
-> Historical reconstruction notes. For the public model and its exact training
-> corpus, use the [released-model reproduction guide](released-model.md).
-> Earlier runners and evaluation protocols below are retained as experiment history.
+> Historical reconstruction notes. Earlier runners and evaluation protocols
+> below are retained as experiment history. Current release code is in `scripts/`
+> and `legacy/training/`.
 
 # Reconstructed dependency environment
 
