@@ -1,6 +1,5 @@
-> Historical reconstruction notes. Earlier runners and evaluation protocols
-> below are retained as experiment history. Current release code is in `scripts/`
-> and `legacy/training/`.
+> For the released model, see the [reproduction guide](released-model.md).
+> The notes below document earlier experiments.
 
 # TaDSE experiment reconstruction
 

@@ -6,7 +6,7 @@ Accepted to **ACL 2026 (Oral)**.
 
 ## News
 
-> **2026-10-12 — Model and dataset released!** Our [Template Dialogue Embedding model](https://huggingface.co/minsik-oh/template-dialogue-embedding) and [Template Dialogue Pairs dataset](https://huggingface.co/datasets/minsik-oh/template-dialogue-pairs) are now publicly available on Hugging Face. The recovered replication code is also available in this repository.
+> **2026-10-12 — Model and dataset released!** Our [Template Dialogue Embedding model](https://huggingface.co/minsik-oh/template-dialogue-embedding) and [Template Dialogue Pairs dataset](https://huggingface.co/datasets/minsik-oh/template-dialogue-pairs) are now publicly available on Hugging Face. Training code and a [reproduction guide](docs/released-model.md) are also available.
 
 TaDSE learns sentence embeddings for spoken/dialogue language understanding by
 jointly contrasting utterances and their underlying **patterns** (slot-templated
@@ -37,22 +37,19 @@ with torch.inference_mode():
     embeddings = F.normalize(model(**tokens).pooler_output, p=2, dim=-1)
 ```
 
-The release is a newly trained checkpoint; it is not the original paper checkpoint.
+For setup, training, export and evaluation, see the
+[reproduction guide](docs/released-model.md).
 
 ## Repository layout
 
 ```
 data/massive/          Bundled source datasets and preprocessing
-legacy/
-  augment_data.py     Recovered augmentation source
-  accuracy_infer.py   Recovered evaluation source
-  simcse_tool.py      Recovered embedding/search implementation
-  training/           Original entry point, custom CLTrainer, model and collator
 scripts/              Portable release preparation, training, export and evaluation
 model/
-  tadse/              Earlier compatibility models and experimental adaptations
+  tadse/              Model implementations
   supervised/         Downstream JointBERT-style intent classification
 eval/                 Alignment/uniformity and representation utilities
+docs/released-model.md   Reproduction guide
 releases/             Model/dataset cards and verified manifests
 requirements.txt      Modern preparation/runtime dependencies
 ```
@@ -82,33 +79,17 @@ Backbones: BERT, RoBERTa, and Qwen3 (`BertForPatternCL`, `RobertaForPatternCL`,
 (`cls`, `cls_before_pooler`, `pad_left_no_pooler`, `avg`, `avg_top2`,
 `avg_first_last`).
 
-## Training code
+## Training
 
-The release uses the **recovered original training stack**, including the custom
-`CLTrainer`, model, collator and entry point preserved under `legacy/training/`.
-`scripts/prepare_public_training.py` prepares the published training inputs;
-`scripts/train_released_bert.sh` trains, exports and merges both parent models.
-`scripts/setup_recovered_training.sh` sets up the isolated training environment.
+Follow the [reproduction guide](docs/released-model.md) to prepare the published
+inputs, train both BERT variants with the custom `CLTrainer`, export the trained
+utterance heads and merge them into a single encoder.
 
-Recovered components and their adapters:
-
-- `legacy/augment_data.py` — preserved augmentation source.
-- `scripts/prepare_table2_training.py` — replays that source with explicit
-  dataset settings and provenance; CLINC reuses its cached spaCy annotations.
-- `legacy/training/` — original custom training loop and TaDSE objectives.
-- `scripts/run_simcse_head_ablation.py` — initializes the shared contrastive head
-  from the pretrained SimCSE pooler before the original training entry point runs.
-- `scripts/export_recovered_training.py` — exports the trained utterance head into
-  a standalone BERT pooler and checks exact reload equivalence.
-- `scripts/merge_exported_models.py` — applies the fixed equal-weight merge.
-- `scripts/evaluate_recovered.py` — recovered utterance-only nearest-neighbour
-  evaluation, including the original HWU selection and CLINC OOS examples.
-
-The earlier reconstruction in `docs/reproduction.md`, the stock-Trainer runner
-`scripts/reproduce_train.py`, and older experiment notes remain as historical
-records. The original historical launch command and complete environment lock were not recovered;
-re-running the released recipe does not establish exact reproduction of the
-paper's checkpoints or results.
+- `scripts/setup_recovered_training.sh` — sets up the training environment.
+- `scripts/prepare_public_training.py` — downloads and verifies training inputs.
+- `scripts/train_released_bert.sh` — runs training, head export and merging.
+- `scripts/prepare_table2_training.py` — generates utterance-template training data.
+- `scripts/evaluate_recovered.py` — runs utterance-only nearest-neighbour evaluation.
 
 ## Downstream intent classification
 
